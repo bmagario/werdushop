@@ -1,0 +1,63 @@
+.ingresar {
+  color: black;
+}
+
+.ingresar input {
+  text-align: center;
+}
+
+.ingresar a {
+  color: black;
+
+}
+
+.ingresar a:focus,
+.ingresar a:hover {
+  color: blue;
+}
+
+.ingresar label {
+  font-weight: normal;
+}
+
+.ingresar button {
+  font-weight: bold;
+}
+
+.ingresar a, .ingresar a:hover, .ingresar a:focus {text-decoration: none;cursor: pointer;}
+
+.nav-perfil {
+	border-radius: 5px !important;
+}
+
+.nav-perfil > .active > a {
+	border: 1px solid transparent;
+}
+
+.nav-perfil > li.active > a {
+	background-color: green !important;
+	border: 1px solid green;
+	border-radius: 5px !important;
+}
+
+.nav-perfil > li > a {
+	border-radius: 5px !important;
+	background-color: lightgreen !important;
+	color:  green;
+	border: 1px solid lightgreen;
+}
+
+.nav-perfil > li > a:hover,
+.nav-perfil > li > a:focus {
+	border: 1px solid white;
+}
+
+/* Sacar las flechas en campos input de tipo number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}

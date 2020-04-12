@@ -1,0 +1,13 @@
+<div ng-controller="BasketController">
+  <form name="timeForm">
+    <div class="form-group">
+
+      <label for="selhora" class="detalle_entrega_subtitulo">Rango Horario</label>
+
+        <select id="selhora" class="form-control input-sm" ng-model="basketS.selectedHour" ng-options="h as h.hour_show for h in basketS.horarios">
+          <option value="">A qué hora te lo llevamos?</option>
+        </select>
+
+    </div>
+  </form>
+</div>

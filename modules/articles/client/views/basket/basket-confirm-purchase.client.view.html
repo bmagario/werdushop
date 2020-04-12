@@ -1,0 +1,52 @@
+<section ng-controller="BasketController">
+  <div class="container-fluid basket_confirmacion">
+
+    <!-- Lista de artículos de la canasta -->
+    <div class="row" ng-show="basketS.basket.articulos && basketS.basket.articulos.length" >
+      <ul class="col-sm-12" ng-repeat="a in basketS.basket.articulos">
+        <!-- Datos del artículo: precio, unidades, etc -->
+        <li>
+          <span class="basket_name" style="color:{{a.color}}">{{a.name}}</span>
+          <strong class="basket_unidad"> ({{calcularUnidadesArticulo(a)}} {{calcularAbrUnidadMedida(a)}}) </strong> = 
+          <strong class="basket_precio">{{calcularPrecioArticulo(a)|formatoMoneda}}</strong>
+        </li>
+      </ul><!-- a in basket.articles -->        
+    </div>
+
+    <div ng-show="!basketS.basket.articulos || !basketS.basket.articulos.length">Canasta vacia</div>  
+  
+    <!-- Lugar, día y horario de entrega -->
+    <div class="row alert alert-success">
+      <label>Datos para el envío: </label>
+      <span class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+        Te lo llevaremos el <strong>{{basketS.selectedDate.date_show}} {{basketS.selectedHour.hour_show}}</strong> a
+        <strong> {{basketS.selectedAddress.street}} {{basketS.selectedAddress.number}}.</strong>
+        <strong ng-if="basketS.selectedAddress.floor != ''"> {{basketS.selectedAddress.floor}} </strong>
+        <strong ng-if="basketS.selectedAddress.apartment != ''"> "{{basketS.selectedAddress.apartment}}"</strong>
+      </span>
+    </div>
+    
+    <!-- Ingresar comentarios adicionales para la entrega -->  
+    <div ng-include="'/modules/articles/client/views/basket/basket-comments.client.view.html'"></div>
+    
+  </div>
+  
+  <!-- Costo total de la canasta -->
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 basket_subtotal">
+      Subtotal: {{basketS.precioTotalCanasta|formatoMoneda}}
+    </div>      
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 basket_envio">
+      Costo envío: {{basketS.costo_envio|formatoMoneda}}
+    </div> 
+
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 basket_total">
+      Total: {{(basketS.precioTotalCanasta+basketS.costo_envio)|formatoMoneda}}
+    </div> 
+  </div>
+
+  <!-- Botón para confirmar la compra -->
+  <button class="btn btn-lg btn-comprar" ng-click="basketS.cerrar(modalOptions)">Confirmar compra</button>
+ <!--  <button class="btn btn-sm" ng-click="modalService.close()">Seguir comprando</button> -->
+  <button type="reset" class="btn btn-sm" ng-click="basketS.cancelar(modalOptions)">Seguir comprando</button>
+</section>

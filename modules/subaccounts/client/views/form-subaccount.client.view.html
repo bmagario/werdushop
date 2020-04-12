@@ -1,0 +1,55 @@
+<section>
+  <div class="page-header left">
+    <h1>{{vm.subaccount.id_subaccount ? 'Editar Subcuenta' : 'Crear Subcuenta'}}</h1>
+  </div>
+  <div class="col-md-6">
+    <form name="vm.form.subaccountForm" class="" ng-submit="vm.save(vm.form.subaccountForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="description">Nombre</label>
+          <div class="col-sm-10">
+            <input name="description" type="text" ng-model="vm.subaccount.description" id="description" class="form-control col-sm-10" placeholder="Descripción" required>
+            <div ng-messages="vm.form.subaccountForm.description.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar el nombre de la subcuenta.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="state">Cuenta</label>
+          <div class="col-sm-4">
+            <select id="account" name="account" class="form-control" ng-model="vm.subaccount.id_account" ng-options="option.id_account as option.description for option in vm.accountOptions" required>
+            </select>
+            <div ng-messages="vm.form.subaccountForm.account.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe seleccionar una cuenta.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="state">Estado</label>
+          <div class="col-sm-4">
+            <select id="state" name="state" class="form-control" ng-model="vm.subaccount.id_status" ng-options="option.id_status as option.name for option in vm.stateOptions" required>
+            </select>
+            <div ng-messages="vm.form.costCenterForm.state.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Estado.</p>
+            </div>
+          </div>
+        </div>
+        </br>
+        <div class="form-group row">
+          <button type="submit" class="btn btn-default">{{vm.subaccount.id_subaccount ? 'Actualizar' : 'Crear'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="col-md-12">
+    <a class="btn btn-primary" data-ng-click="vm.atras()">
+        Atrás
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.go_subaccounts()">
+        Subcuentas
+    </a>
+  </div>
+</section>

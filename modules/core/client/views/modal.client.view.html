@@ -1,0 +1,20 @@
+<div class="modalwerdulero">
+
+	<div class="modal-content">
+		<div class="modal-header ">
+			<button type="button" class="close" aria-label="Close" data-ng-click="modalOptions.close()">
+	             <span aria-hidden="true">&times;</span>
+	        </button>
+		  	<h3 class="pull-left">{{modalOptions.headerText}}</h3>
+		</div>
+
+		<div class="modal-body">
+		  <p>{{modalOptions.bodyText}}</p>
+		  <div ng-include=modalOptions.bodyUrl></div>
+		</div>
+
+		<div class="modal-footer">
+			{{modalOptions.footerText}}
+		</div> 
+	</div>
+</div>

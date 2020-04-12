@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Subcuentas</h1>
+      </div>
+    </div>
+  </div>
+
+  <table ng-table="tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+    <tr data-ng-repeat="subaccount in $data">
+      <td data-title="'Nombre'" filter="{ sacc_description: 'text' }" sortable="'sacc_description'">{{subaccount.description}}</td>
+      <td data-title="'Cuenta'" filter="{ id_account: 'select' }" filter-data="accounts" sortable="'acc_description'">{{subaccount.acc_description}}</td>
+      <td data-title="'Estado'" filter="{ sacc_id_status: 'select' }" filter-data="states">{{subaccount.status_name}}</td>
+      <td data-title="'Creado'" sortable="'subaccount_created'">{{subaccount.created | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+      <td>
+        <div class="table-actions">
+         <div class="table-actions">
+           <a class="btn btn-primary" title="Ver" data-ui-sref="subaccounts.view({ id_subaccount: subaccount.id_subaccount })">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
+          <a class="btn btn-primary" title="Editar" data-ui-sref="subaccounts.edit({ id_subaccount: subaccount.id_subaccount })">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a class="btn btn-danger" title="Baja" data-ng-click="remove(subaccount)">
+            <i class="glyphicon glyphicon-trash"></i>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="accounts.list">Cuentas</a>
+    <a class="btn btn-primary" data-ui-sref="subaccounts.create">Crear Subcuenta</a>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<section>
+  <div class="page-header">
+    <h1>Código {{vm.subgroup.full_code}}</h1>
+    <h2 data-ng-bind="vm.subgroup.name"></h2>
+  </div>
+  <div class="pull-right">
+    <a class="btn btn-primary"
+       data-ui-sref="subgroups.edit({ subgroupId: vm.subgroup.id_subgroup })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-danger" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Creado
+      <span data-ng-bind="vm.subgroup.created | date:'dd/MM/yyyy'"></span>
+    </em>
+  </small>
+  <p class="lead" data-ng-bind="vm.subgroup.description"></p>
+  <a class="btn btn-primary" data-ng-click="vm.atras()">
+    Atrás
+  </a>
+  <a class="btn btn-primary" data-ng-click="vm.go_subgrupos()">
+    Subgrupos
+  </a>
+</section>

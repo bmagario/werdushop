@@ -1,0 +1,40 @@
+.carousel-control.right, .carousel-control.left {
+  background-image: none;
+  color: black;
+}
+.carousel-indicators li {
+  border-color: #f4511e;
+
+}
+.carousel-indicators li.active {
+  background-color: #f4511e;
+}
+
+.imgSlide {
+  width: 100%
+}
+.mosaic-slide{
+  position:relative;
+  top:0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+}
+
+img {
+  border: none;
+  -moz-border-radius:20px;
+  -webkit-border-radius:20px;
+  border-radius:20px;
+  margin: auto;
+  width: 25%;
+}
+
+img.image_search {
+  border: none;
+  -moz-border-radius:20px;
+  -webkit-border-radius:20px;
+  border-radius:20px;
+  margin: auto;
+  width: 15%;
+}

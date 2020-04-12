@@ -1,0 +1,63 @@
+<section>
+  <div class="page-header">
+    <h1>EMAIL <span ng-bind="user.email"></span></h1>
+  </div>
+  <div class="col-md-6">
+    <form name="userForm" ng-submit="update(userForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="first_name">Nombre</label>
+          <div class="col-sm-10">
+            <input type="text" id="first_name" name="first_name" class="form-control" ng-model="user.first_name" placeholder="Nombre" required />
+            <div ng-messages="userForm.first_name.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar nombre del usuario.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="last_name">Apellido</label>
+          <div class="col-sm-10">
+            <input type="text" id="last_name" name="last_name" class="form-control" ng-model="user.last_name" placeholder="Apellido" required />
+            <div ng-messages="userForm.last_name.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar apellido apellido del usuario.</p>
+            </div>
+
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" class="control-label" for="roles">Roles</label>
+          <div class="controls">
+            <div class="col-sm-10">
+              <input class="form-control" type="text" name="roles" ng-model="user.roles" id="roles" ng-list required />
+              <div ng-messages="userForm.roles.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Debe ingresar por lo menos un rol.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="id_status">Estado</label>
+          <div class="col-sm-4">
+            <select id="id_status" name="id_status" class="form-control" ng-init="user.id_status" ng-model="user.id_status" ng-options="option.id_status as option.name for option in stateOptions" value="{{option.id_status}}" required>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Actualizar" class="btn btn-default">
+        </div>
+        <div ng-show="error" class="text-danger">
+          <strong ng-bind="error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="col-md-12">
+    <a class="btn btn-primary" data-ng-click="atras()">
+        Atrás
+    </a>
+    <a class="btn btn-primary" data-ng-click="go_usuarios()">
+        Usuarios
+    </a>
+  </div>
+</section>

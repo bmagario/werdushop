@@ -1,0 +1,13 @@
+<div ng-controller="BasketController">
+  <form name="dayForm">
+    <div class="form-group">
+
+      <label for="selhora" class="detalle_entrega_subtitulo">Día</label>
+
+        <select id="selhora" class="form-control input-sm" ng-model="basketS.selectedDate" ng-options="d as d.date_show for d in basketS.dias">
+          <option value="">Qué día te lo llevamos?</option>
+        </select>
+
+    </div>
+  </form>
+</div>

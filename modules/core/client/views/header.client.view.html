@@ -1,0 +1,295 @@
+<!-- HEADER AND NAVBAR -->
+<header class="animation1"  class="werdu-header" ng-controller="HeaderController" >
+
+  <nav class="navbar navbar-transparent navbar-static-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <form class="form-inline" ng-class="{'navbar-fixed-top':scrollDown}" scroll-nav>
+          <!-- Oculto en pantallas grandes y visible cuando se colapsa el menú -->
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" ng-click="toggleCollapsibleMenu()" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <div class="form-group hidden-sm hidden-md hidden-lg">
+            <ul class="list-inline">
+              <li ng-if="authentication.user" ng-controller="SidebarController" >
+                <!-- ng-show='menu.shouldRender(authentication.user)' -->
+                <a aside-menu-toggle="sol1" type="button">
+                  <i class="pull-right glyphicon aside_arrow" ng-class="{'glyphicon-chevron-left': opened, 'glyphicon-chevron-right': !opened}"></i>
+                </a></li>
+                <!-- Contacto -->
+                <li class="werdu-iconcontacto">
+                  <a ng-click="verDudasConsultas()" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="Envianos tu consulta">
+                  </a>
+                </li>
+
+                <!-- Facebook de werdulero -->
+                <li class="werdu-iconface">
+                  <a href="https://www.facebook.com/Werdulero" target="_blank" alt="Visitá nuestro facebook" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="Visitá nuestro facebook">
+                  </a>
+                </li>
+
+                <!-- Título de la página -->
+
+                <li class="werdu-titulo navbar-brand-centered">
+                  <a ui-sref="home" ng-click="goHome()" >{{tpagina}}</a>
+                </li>
+
+                <!-- Ingreso - Registro -->
+                <li ng-if="authentication.user" class="dropdown werdu-acceso" dropdown>
+                  <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
+                    <span ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
+                  </a>
+
+                  <ul class="dropdown-menu" role="menu">
+
+                    <li ui-sref-active="active">
+                      <a ui-sref="settings.profile">{{teditardatospropios}}</a>
+                    </li>
+                    <li ui-sref-active="active">
+                      <a ui-sref="settings.address">{{tcambiardomicilio}}o</a>
+                    </li>
+                    <li ui-sref-active="active" ng-if="authentication.user.provider === 'local'">
+                      <a ui-sref="settings.password">{{tcambiarclave}}</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a class="salir" ng-if="authentication.user" href="/api/auth/signout" target="_self">{{blogout}} <span class='glyphicon glyphicon-log-out'></span></a>
+                    </li>
+                  </ul>
+                </li>
+                <li ng-if="!authentication.user" class="werdu-iconcanasta">
+                  <a class="a_canasta" ng-click="verIngreso()" tooltip-trigger="mouseenter" tooltip-placement="left" tooltip="{{bingresar}}"></a>
+                </li>
+                <li ng-if="!authentication.user" class="werdu-iconcanasta">
+                  <!-- <div class="contenedor_canasta">
+                  <a class="a_canasta" data-toggle="popover"
+                  popover-template="canastaPopover.templateUrl"
+
+                  popover-placement="bottom"
+
+                  popover-animation="true">
+
+                  <span class="badge badge-info" ng-bind="basketS.precioTotalCanasta|formatoMoneda"></span>
+                </a>
+              </div> -->
+            </li>
+          </ul>
+
+        </div>
+      </form>
+    </div><!-- visualización reducida de la navbar cuando la pantalla es chica -->
+
+    <!-- sm - md - lg -->
+    <div class="hidden-xs">
+
+      <!-- Título de la página -->
+      <ul>
+        <li class="werdu-titulo">
+          <a ui-sref="home" ng-click="goHome()" class="navbar-brand">{{tpagina}}</a>
+        </li>
+      </ul>
+
+      <!-- Acceso a Facebook de werdulero y medio de contacto -->
+      <ul class="nav navbar-nav navbar-left" >
+
+        <li ng-if="authentication.user" ng-controller="SidebarController as _menu">
+          <a  aside-menu-toggle="sol1">
+
+            <i class="pull-right glyphicon aside_arrow" ng-class="{'glyphicon-chevron-left': _menu.opened, 'glyphicon-chevron-right': !_menu.opened}"></i>
+          </a>
+        </li>
+
+
+        <!-- Contacto -->
+        <li class="werdu-iconcontacto">
+          <a ng-click="verDudasConsultas()" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="Envianos tu consulta">
+          </a>
+        </li>
+
+        <!-- Facebook -->
+        <li class="werdu-iconface">
+          <a href="https://www.facebook.com/Werdulero" target="_blank" alt="Visitá nuestro facebook" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="Visitá nuestro facebook">
+          </a>
+        </li>
+      </ul><!-- .nav navbar-nav navbar-left -->
+
+      <!-- Acceso a la canasta, login, registro y lista desplegable con datos del usuario logueado -->
+      <ul class="nav navbar-nav navbar-right">
+
+        <!-- Search Box -->
+        <li ng-controller="GondolaArticlesController">
+          <div id="sb-search" class="sb-search sb-search-open">
+            <input
+              class="form-control sb-search-input"
+              type="text"
+              ng-model="globalArticle"
+              placeholder="Buscar Artículos"
+              typeahead-min-length="1"
+              typeahead="articulo as articulo.name for articulo in getArticles($viewValue)"
+              typeahead-template-url="/modules/core/client/views/search_articles_result.html"
+              typeahead-on-select="findArticles()"
+              typeahead-focus-first="false"
+              typeahead-wait-ms="100"
+              ng-keypress="$event.keyCode == 13 && findArticles()">
+        		<button class="" ng-click="findArticles()">
+              <i class="fa fa-search sb-icon-search"></i>
+            </button>
+          </div>
+          <div ng-if="noResults">
+            Sin Resultados!
+          </div>
+        </li>
+
+        <!-- Ingreso - Registro - Datos que se muestran a la derecha cuando el usuario accede -->
+        <li ng-if="authentication.user" class="dropdown werdu-acceso" dropdown >
+
+          <!-- Nombre del usuario -->
+          <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
+            <span ng-bind="authentication.user.display_name"></span> <b class="caret"></b>
+          </a>
+
+          <!-- Lista con opciones para modificar sus datos propios, cambiar su contraseña y salir del sistema -->
+          <ul class="dropdown-menu" role="menu">
+
+            <li ui-sref-active="active"><a ui-sref="settings.profile">{{teditardatospropios}}</a></li>
+            <li ui-sref-active="active">
+              <a ui-sref="settings.address">{{tcambiardomicilio}}</a>
+            </li>
+            <li ui-sref-active="active" ng-if="authentication.user.provider === 'local'"><a ui-sref="settings.password">{{tcambiarclave}}</a></li>
+
+            <li class="divider"></li>
+
+            <li><a class="salir" ng-if="authentication.user" href="/api/auth/signout" target="_self">{{blogout}} <span class='glyphicon glyphicon-log-out'></span></a></li>
+
+          </ul>
+        </li>
+
+        <!-- Canasta cuando el usuario está logueado-->
+        <li ng-if="!authentication.user" class="werdu-iconcanasta">
+          <a class="a_canasta" ng-click="verIngreso()" tooltip-trigger="mouseenter" tooltip-placement="left" tooltip="{{bingresar}}"></a>
+        </li>
+        <li ng-if="authentication.user" class="dropdown werdu-iconcanasta" dropdown>
+          <div class="contenedor_canasta">
+            <a class="a_canasta" data-toggle="popover" popover-template="canastaPopover.templateUrl" popover-placement="bottom" popover-animation="true"></a>
+            <span ng-if="authentication.user" class="badge badge-info" ng-bind="basketS.precioTotalCanasta|formatoMoneda"></span>
+          </div>
+        </li>
+
+      </ul><!-- .nav navbar-nav navbar-right -->
+
+        
+    </div>
+
+    <!-- Agrupa tabs. nav links, forms, y cualquier contenido que deba mostrarse en el botón de la navbar-toggle collapsed -->
+    <div class="collapse navbar-collapse" collapse="!isCollapsed">
+
+      <!-- Tabs cuando la pantalla es chica xs -->
+      <tabset class="hidden-sm hidden-md hidden-lg" justified="true">
+        <tab ng-repeat="tab in tabs" heading="{{tab.titulo}}" active="tab.active" disable="tab.disabled" ui-sref="{{tab.url}}"></tab>
+      </tabset>
+      <!-- esto puede usarse si dependiendo del tipo de usuario se agregan items al menu!
+      <ul class="nav navbar-nav" ng-if="menu.shouldRender(authentication.user);">
+        <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
+          <a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
+          <ul ng-switch-when="dropdown" class="dropdown-menu">
+            <li ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active">
+              <a ui-sref="{{subitem.state}}" ng-bind="subitem.title"></a>
+            </li>
+          </ul>
+        <a ng-switch-default ui-sref="{{item.state}}" ng-bind="item.title"></a>
+        </li>
+      </ul> -->
+
+
+    </div>
+
+  </div> <!-- .container-fluid -->
+</nav> <!-- navbar superior (visible para todos los tamaños de pantalla) -->
+
+<!-- Tabs -->
+<nav class="navbar navbar-transparent navbar-lower werdu-header" ng-controller="HeaderController" role="navigation">
+
+  <div class="container-fluid" ng-class="{'navbar-fixed-top':scrollDown}" scroll-nav>
+
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-left" ng-if="scrollDown">
+        <li ng-if="authentication.user" ng-controller="SidebarController"><a aside-menu-toggle="sol1" type="button">
+          <i class="pull-right glyphicon aside_arrow" ng-class="{'glyphicon-chevron-left': opened, 'glyphicon-chevron-right': !opened}"></i>
+        </a></li>
+        <!-- Contacto -->
+        <li class="werdu-iconcontacto">
+          <a ng-click="verDudasConsultas()" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="Envianos tu consulta">
+          </a>
+        </li>
+
+        <!-- Facebook de werdulero -->
+        <li class="werdu-iconface">
+          <a href="https://www.facebook.com/Werdulero" target="_blank" alt="Visitá nuestro facebook" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="Visitá nuestro facebook">
+          </a>
+        </li>
+      </ul><!-- nav navbar-nav navbar-left -->
+
+
+      <!-- Título de la página -->
+      <ul class="nav navbar-nav  hidden-xs" ng-if="scrollDown">
+        <li class="werdu-titulo">
+          <a ui-sref="home" ng-click="goHome()">{{tpagina}}</a>
+        </li>
+      </ul>
+
+
+      <ul class="nav navbar-nav navbar-right" ng-if="scrollDown">
+        <!-- Ingreso - Registro -->
+        <li ng-if="authentication.user" class="dropdown werdu-acceso" dropdown>
+          <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
+            <span ng-bind="authentication.user.display_name"></span> <b class="caret"></b>
+          </a>
+
+          <ul class="dropdown-menu" role="menu">
+
+            <li ui-sref-active="active">
+              <a ui-sref="settings.profile">{{teditardatospropios}}</a>
+            </li>
+            <li ui-sref-active="active">
+              <a ui-sref="settings.address">{{tcambiardomicilio}}</a>
+            </li>
+            <li ui-sref-active="active" ng-if="authentication.user.provider === 'local'">
+              <a ui-sref="settings.password">{{tcambiarclave}}</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a class="salir" ng-if="authentication.user" href="/api/auth/signout" target="_self">{{blogout}} <span class='glyphicon glyphicon-log-out'></span></a>
+            </li>
+          </ul>
+        </li>
+        <li ng-if="!authentication.user" class="werdu-iconcanasta">
+          <a class="a_canasta" ng-click="verIngreso()" tooltip-trigger="mouseenter" tooltip-placement="left" tooltip="{{bingresar}}"></a>
+        </li>
+        <!-- <li class="werdu-iconcanasta" ng-hide="!authentication.user">
+        <div class="contenedor_canasta">
+        <a class="a_canasta" data-toggle="popover"
+        popover-template="canastaPopover.templateUrl"
+
+        popover-placement="bottom"
+
+        popover-animation="true">
+
+        <span class="badge badge-info" ng-bind="basketS.precioTotalCanasta|formatoMoneda"></span>
+      </a>
+    </div>
+  </li> -->
+
+</ul>
+
+<tabset justified="true">
+  <tab ng-repeat="tab in tabs" heading="{{tab.titulo}}" active="tab.active" disable="tab.disabled" ui-sref="{{tab.url}}"></tab>
+</tabset>
+
+</div>
+</div>
+</nav>
+</header>

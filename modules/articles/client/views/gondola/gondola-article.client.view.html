@@ -1,0 +1,11 @@
+<div class="media">
+  <!-- Foto del producto -->
+  <img class="pull-left img-circle" ng-src={{article.article_image_url}} alt={{article.name}}>
+
+  <!-- Datos del producto: descripción e información nutricional -->
+  <div class="media-body">
+    <h4 class="media-heading">{{article.description}}</h4>
+    <!-- Información nutricional:  -->
+    {{article.nutritional_information}}
+  </div>
+</div>

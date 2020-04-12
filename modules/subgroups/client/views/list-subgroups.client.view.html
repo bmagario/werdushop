@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Subgrupos</h1>
+      </div>
+    </div>
+  </div>
+
+  <table ng-table="tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+    <tr data-ng-repeat="subgroup in $data">
+      <td data-title="'Código'" filter="{ subgroup_code: 'text' }" sortable="'subgroup_code'">{{subgroup.full_code}}</td>
+      <td data-title="'Nombre'" filter="{ subgroup_name: 'text' }" sortable="'id_subgroup'">{{subgroup.name}}</td>
+      <td data-title="'Grupo'" filter="{ subgroup_group: 'select' }" filter-data="groups" sortable="'id_group'">{{subgroup.group_name}}</td>
+      <td data-title="'Estado'" filter="{ id_status: 'select' }" filter-data="states">{{subgroup.status_name}}</td>
+      <td data-title="'Creado'" sortable="'subgroup_created'">{{subgroup.created | date:'dd/MM/yyyy'}}</td>
+      <td>
+        <div class="table-actions">
+         <div class="table-actions">
+           <a class="btn btn-primary" title="Ver" data-ui-sref="subgroups.view({ subgroupId: subgroup.id_subgroup })">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
+          <a class="btn btn-primary" title="Editar" data-ui-sref="subgroups.edit({ subgroupId: subgroup.id_subgroup })">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a class="btn btn-danger" title="Baja" data-ng-click="remove(subgroup)">
+            <i class="glyphicon glyphicon-trash"></i>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="subgroups.create">Crear Subgrupo</a>
+  </div>
+</section>

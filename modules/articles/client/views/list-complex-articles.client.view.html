@@ -1,0 +1,33 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Artículos Complejos</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table ng-table="tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+      <tr data-ng-repeat="complex_article in $data">
+        <td data-title="'Código'" filter="{ full_code: 'text' }" sortable="'full_code'">{{complex_article.full_code}}</td>
+        <td data-title="'Nombre'" filter="{ name: 'text' }" sortable="'name'">
+          {{complex_article.name}}
+        </td>
+        <td data-title="'Subgrupo'" filter="{ id_subgroup: 'select' }" filter-data="subgroups" sortable="'id_subgroup'">{{complex_article.subgroup_name}}</td>
+        <td data-title="'Fecha Vigencia'">{{complex_article.effective_date | date : "dd/MM/yyyy HH:mm"}}</td>
+        <td data-title="'Creado'" sortable="'created'">{{complex_article.created | date:'dd/MM/yyyy'}}</td>
+        <td>
+           <div class="table-actions">
+             <a class="btn btn-primary" title="Ver" data-ui-sref="complex_articles.edit({ complexArticleId: complex_article.id_complex_article })">
+              <span class="glyphicon glyphicon-eye-open"></span>
+              </a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="complex_articles.create">Crear Artículo Complejo</a>
+  </div>
+</section>

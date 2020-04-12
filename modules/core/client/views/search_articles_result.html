@@ -1,0 +1,7 @@
+<script type="text/ng-template" id="search_articles_result.html">
+  <script></script>
+  <a>
+      <img ng-src="{{match.model.article_image_url}}" class="image_search">
+      <span ng-bind-html="match.label | typeaheadHighlight:query"></span>
+  </a>
+</script>

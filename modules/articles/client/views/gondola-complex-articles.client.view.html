@@ -1,0 +1,59 @@
+<!-- La view listar artículos complejos en las góndola -->
+<div class="row" ng-controller="GondolaArticlesController">  
+
+	<div class="col-lg-6 col-md-7 col-xs-10 gondola" ng-repeat="article in gondola | filter:query | orderBy: 'a.name' ">
+		<div class="row">
+
+			<!-- Foto del articulo, precio y botones para agregarlo a la canasta -->
+			<div class="col-lg-4 col-md-5 col-xs-8 col-md-offset-1">
+				<!-- Foto del artículo -->
+				<span><img class="img-responsive" ng-src="{{article.a.article_image_url}}" alt="{{article.a.name}}" ng-click="mostrarArticuloComplejoGondola(article)" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="Ver detalles"></span>
+
+				<!-- Precio y unidad de venta -->
+				<div class="row gondola_pie ">
+					<div class="col-sm-12">
+						<span class="gondola_precio" ng-bind="article.a.price|formatoMoneda"></span>
+					</div><!-- col  -->
+				</div><!-- row gondola_pie -->
+
+				<!-- Botones para agregar o quitar el artículo a la canasta -->
+				<div class="row btn-gondola">
+					<div class="col-sm-12">
+					 <!-- Botón para cargar al menos una unidad del artículo a la cesta -->
+						<a type="button" class="btn-canasta btn-sm"
+								ng-show="article.ver_canasta" ng-click="agregaraCanasta(article)">Agregar</a>
+
+						<!-- Botones de - y + para sumar o quitar unidades del artículo de la cesta -->
+						<a ng-show="article.ver_menos" class="btn-menos-gondola" ng-click="quitardeCanasta(article)"><span class="glyphicon glyphicon-minus"></span></a>
+
+						<span ng-show="article.ver_cantidad" class="gondola_cantidadencesta">
+						{{basketS.cantidadArticuloCanasta(article.a)}}</span>
+
+						<a ng-show="article.ver_mas" class="btn-mas-gondola" ng-click="agregaraCanasta(article)"><span class="glyphicon glyphicon-plus"></span></a>
+					</div>
+				</div><!-- btn-gondola -->
+			</div>
+
+			<!-- Detalles del articulo -->
+			<div class="col-lg-6 col-md-7 col-xs-10 text-left">
+				<!-- Titulo del artículo -->
+				<span class="gondola_name text-left" style="color: green">{{article.a.name}}</span>
+				<span ng-show="article.a.offer == 1" class="label label-success promocomplejos">Promo</span>
+				<h4>{{article.a.description}}</h4>
+				<ul class="list-unstyled" ng-repeat="detail_article in article.dc">
+				  <li class="media text-left">
+
+		      	<span class="mt-0 mb-1">{{detail_article.scale_complex}} {{detail_article.measurement_unit_abbreviation_complex}} {{detail_article.name}}</span>
+				  </li>
+				</ul>
+
+				<div class="masdetalles"><a ng-click="mostrarArticuloComplejoGondola(article)"> + ver más..</a></div>
+			</div>
+		</div>
+	</div><!-- ng-repeat="a in articles" -->
+
+	<!-- Si no hay artículos en la lista, lo informo al usuario -->
+	<div ng-show="!gondola || !gondola.length" >
+		<span class="gondola_name">No hay artículos en esta góndola</span>
+	</div>
+</div><!-- row gondola

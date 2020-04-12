@@ -1,0 +1,28 @@
+<section>
+  <div class="page-header">
+    <h1>Código <span data-ng-bind="vm.group.code | zpad:2"></span></h1>
+    <h2 data-ng-bind="vm.group.name"></h2>
+  </div>
+  <div class="pull-right">
+    <a class="btn btn-primary"
+       data-ui-sref="groups.edit({ groupId: vm.group.id_group })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-danger" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Creado
+      <span data-ng-bind="vm.group.created | date:'dd/MM/yyyy'"></span>
+    </em>
+  </small>
+  <p class="lead" data-ng-bind="vm.group.description"></p>
+  <a class="btn btn-primary" data-ng-click="vm.atras()">
+      Atrás
+  </a>
+  <a class="btn btn-primary" data-ng-click="vm.go_grupos()">
+      Grupos
+  </a>
+</section>

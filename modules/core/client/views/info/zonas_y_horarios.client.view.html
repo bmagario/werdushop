@@ -1,0 +1,28 @@
+<div class="container" ng-controller="GoogleMapsController as vm">
+  <div map-lazy-load="{{vm.googleApiUrl}}"
+       map-lazy-load-params="{{vm.googleMapsUrl}}">
+       <input
+         places-auto-complete
+         ng-model="vm.address"
+         strict-bounds="true"
+         rect-bounds="{{vm.paths}}"
+         types="['address']"
+         on-place-changed="vm.placeChanged()"
+         placeholder="Ingresá tu dirección"
+         class="form-control left"
+       /> <br/>
+       <div ng-show="vm.place">
+         Address = {{vm.place.formatted_address}} <br/>
+         Location: {{vm.place.geometry.location}}<br/>
+         Esta en la zona? {{vm.esta}}
+       </div>
+      <ng-map zoom="11" center="{{vm.center}}">
+        <shape on-click="vm.onClick()" path="{{vm.paths}}"  name="polygon" ></shape>
+        <marker
+          position="{{vm.pos}}"
+          draggable="true"
+          on-dragend="vm.getCurrentLocation()">
+        </marker>
+      </ng-map>
+  </div>
+</div>

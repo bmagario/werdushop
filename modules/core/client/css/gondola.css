@@ -1,0 +1,164 @@
+@font-face {
+  font-family: 'gondolaWerduleroFont_nombre';
+  src: url('../fonts/cera-Pro-Black/font.otf') format(''),
+  	   url('../fonts/cera-Pro-Black/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'gondolaWerduleroFont_precioxunidad';
+  src: url('../fonts/peax_handwriting/font.ttf') format('truetype');
+}
+
+/*Pager*/
+.pager {
+	font-family: FontAwesome !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.pager .next > a,
+.pager .next > span {
+  float: right;
+}
+.pager .previous > a:before,
+.pager .previous > span:before {
+  content: "\f053;";
+}
+
+/*Formato general de la góndola y la canasta de artículos*/
+.gondola {
+	background-color: transparent;
+	padding: 2em 0 3em 0;
+	text-align: center;
+}
+/*Fotos de los artículos*/
+.gondola img {
+
+  width: 10em;
+  height: 10em;
+}
+
+
+.lista_img_artcomp {
+	width: 4em;
+  	/* height: 4em; */
+}
+
+/*Nombre de cada artículo de la gondola*/
+.gondola_name {
+  font-family: gondolaWerduleroFont_nombre;
+  font-size: 2.5em;
+}
+/*Datos del pie de la góndola: precio y unidad de venta*/
+.gondola_pie,
+.gondola_pie a {
+	color: rgb(97,78,21);
+}
+/*Formatos para mostrar el precio y unidad de venta del artículo en góndola*/
+.gondola_precio {
+	font-family: gondolaWerduleroFont_precioxunidad;
+	color: rgb(25,12,8);
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.gondola_unidad {
+	font-family: gondolaWerduleroFont_precioxunidad;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.gondola_eq {
+	font-family: gondolaWerduleroFont_precioxunidad;
+	font-size: 1em;
+	font-weight: bold;
+}
+.gondola_cantidadencesta {
+	font-family: gondolaWerduleroFont_nombre;
+	font-size: 1em;
+}
+/*Botones circulares de la góndola: sumar a la canasta, quitar de la canasta*/
+/*Espacio entre el dato del precio x unidad y los botones*/
+.gondola_pie {
+	padding-bottom: 1em;
+}
+.gondola_pie a {
+	font-family: gondolaWerduleroFont_nombre;
+	font-size: 1.5em;
+	background-color: white;
+}
+
+.gondola_pie a:hover {
+
+	background-color: rgb(97,78,21);
+	color: white;
+}
+
+.btn-gondola a {
+
+	-moz-border-radius: 100%;
+	-webkit-border-radius: 100%;
+	border-radius: 100%;
+	border: 0.1em solid rgba(0, 0, 0, 0.19);
+
+	-webkit-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.19);
+	-moz-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.19);
+	box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.19);
+}
+
+.btn-gondola a:hover,
+.btn-gondola a:focus {
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+	-moz-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.19);
+}
+
+.btn-gondola a.btn-canasta {
+
+	-moz-border-radius: 0.5em;
+	-webkit-border-radius: 0.5em;
+	border-radius: 0.5em;
+}
+
+.btn-mas-gondola,
+.btn-canasta {
+  color: #ffffff;
+
+  background-color: rgb(233,62,3);
+  background-color: rgba(233,62,3,255); /*Naranja*/
+
+  border-color: rgb(233,62,3);
+  border-color: rgba(233,62,3,255);
+}
+.btn-mas-gondola:hover,
+.btn-canasta:hover {
+  color: #ffffff;
+  background-color: #EB9316;
+  background-image: linear-gradient(to bottom, #EB9316, #EB9316);
+  border-color: #EB9316;
+}
+
+.btn-menos-gondola {
+	color: rgb(97,78,21);
+    background-color: white;
+}
+.btn-menos-gondola:hover {
+	color: #EB9316;
+    background-color: white;
+
+}
+
+.btn-gondola a.btn-mas-gondola {
+	padding: 0.5em 0.6em 0.4em 0.6em;
+}
+
+.btn-gondola a.btn-menos-gondola {
+	padding: 0.5em 0.6em 0.4em 0.5em;
+}
+
+.sb-search input{
+	padding: 0 0 0 15px;
+}

@@ -1,0 +1,58 @@
+<section>
+  <div class="page-header left">
+    <h1>{{vm.subgroup.id_subgroup ? 'Editar Subgrupo' : 'Crear Subgrupo'}}</h1>
+  </div>
+  <div class="col-md-6">
+    <form name="vm.form.subgroupForm" class="" ng-submit="vm.save(vm.form.subgroupForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="name">Nombre</label>
+          <div class="col-sm-10">
+            <input name="name" type="text" ng-model="vm.subgroup.name" id="name" class="form-control col-sm-10" placeholder="Nombre" required>
+            <div ng-messages="vm.form.subgroupForm.name.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Por favor agregue el nombre del subgrupo.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="description">Descripción</label>
+          <div class="col-sm-10">
+            <input name="description" type="text" ng-model="vm.subgroup.description" id="description" class="form-control col-sm-10" placeholder="Descripción">
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="group">Grupo</label>
+          <div class="col-sm-4">
+            <select id="group" name="group" class="form-control" ng-model="vm.subgroup.id_group" ng-options="option.id_group as option.name for option in vm.groupOptions" required>
+            </select>
+            <div ng-messages="vm.form.subgroupForm.group.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Grupo.</p>
+            </div>
+          </div>
+          <label class="control-label col-sm-2 right" for="state">Estado</label>
+          <div class="col-sm-4">
+            <select id="state" name="state" class="form-control" ng-model="vm.subgroup.id_status" ng-options="option.id_status as option.name for option in vm.stateOptions" required>
+            </select>
+            <div ng-messages="vm.form.subgroupForm.state.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Estado.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.subgroup.id_subgroup ? 'Actualizar' : 'Crear'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="col-md-12">
+    <a class="btn btn-primary" data-ng-click="vm.atras()">
+        Atrás
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.go_subgrupos()">
+        Subgrupos
+    </a>
+  </div>
+</section>

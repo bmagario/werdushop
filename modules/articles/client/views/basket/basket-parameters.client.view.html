@@ -1,0 +1,19 @@
+<section>
+  <div class="page-header left">
+    <h1>Parámetros de envío</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-sm-2 col-md-2 col-xs-2 col-lg-2 ">
+        <ul class="nav nav-pills nav-stacked nav-basket-parameters" ng-repeat="opt in options">
+          <li ui-sref-active="{{opt.active}}">
+            <a ui-sref="{{opt.url}}">{{opt.titulo}}</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="col-sm-10 col-md-10 col-xs-10 col-lg-10">
+        <div ui-view></div>
+      </div>
+    </div>
+  </div>
+</section>

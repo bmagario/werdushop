@@ -1,0 +1,29 @@
+<section class="row">
+  <div class="page-header">
+    <h3>Imagen</h3>
+  </div>
+  <form class="signin form-horizontal">
+    <fieldset>
+      <div class="form-group text-center">
+        <img ng-src="{{vm.article_image_url}}" class="img-responsive">
+      </div>
+      </br>
+      <div class="text-center form-group" ng-hide="vm.uploader.queue.length">
+        <label class="btn-file">
+          <i class="fa fa-cloud-upload"></i> Seleccionar Imagen
+          <input nv-file-select uploader="vm.uploader" type="file"/>
+        </label>
+      </div>
+      <div class="text-center form-group" >
+        <button class="btn btn-primary" ng-click="vm.uploadProfilePicture();">Cargar</button>
+        <button class="btn btn-default" ng-click="vm.cancelUpload();">Cancelar</button>
+      </div>
+      <div ng-show="success" class="text-center text-success">
+        <strong>Imagen cargada satisfactoriamente</strong>
+      </div>
+      <div ng-show="error" class="text-center text-danger">
+        <strong ng-bind="error"></strong>
+      </div>
+    </fieldset>
+  </form>
+</section>

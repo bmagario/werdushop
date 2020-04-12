@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Usuarios</h1>
+      </div>
+      <div class="col-md-4" style="margin-top: 2em">
+        <input class="form-control col-md-4" type="text" ng-model="search" placeholder="Buscar" 
+               ng-change="figureOutItemsToDisplay()" />
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered table-stripped">
+    <tr>
+      <th class="center">Email</th>
+      <th class="center">Nombre</th>
+      <th class="center">Género</th>
+      <th class="center">Provider</th>
+      <th class="center">Roles</th>
+      <th class="center">Creado</th>
+      <th class="center">Estado</th>
+    </tr>
+    <tr ng-repeat="user in pagedItems" ui-sref="admin.user({idUser: user.id_user})"><
+      <td ng-bind="user.email"></td>
+      <td><span ng-bind="user.first_name"></span> <span ng-bind="user.last_name"></span></td>
+      <td ng-bind="user.gender"></td>
+      <td ng-bind="user.provider"></td>
+      <td ng-bind="user.roles"></td>
+      <td><span data-ng-bind="user.created | date:'MM/dd/yyyy HH:mm:ss'"></span></td>
+      <td ng-bind="user.status_name"></td>
+    </tr>
+  </table>
+  </div>
+
+  <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+</section>

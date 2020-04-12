@@ -1,0 +1,249 @@
+/*Fotos de los artículos*/
+.media-left .basket_img {
+  width:150%;
+  height: auto;
+}
+
+.btn_trash a {
+  color: rgba(97,78,21, 0.5) !important;
+}
+
+.btn_trash a:hover,
+.btn_trash a:focus {
+  color: rgba(97,0,0,0.2) !important;
+}
+
+/*Nombre de cada artículo de la canasta*/
+.basket_name {
+  font-family: gondolaWerduleroFont_nombre;
+  font-size: 110%;
+}
+
+/*Formatos para mostrar el precio y unidad de venta del artículo en la canasta*/
+.basket_precio {
+  font-family: gondolaWerduleroFont_precioxunidad;
+  color: rgb(25,12,8);
+  font-size: 100%;
+  font-weight: bold;
+}
+
+.basket_unidad {
+  font-family: gondolaWerduleroFont_precioxunidad;
+  font-size: 100%;
+  font-weight: bold;
+}
+
+.basket_eq {
+  font-family: gondolaWerduleroFont_precioxunidad;
+  font-size: 50%;
+  font-weight: bold;
+}
+
+.basket_cantidadencesta {
+  font-family: gondolaWerduleroFont_nombre;
+  font-size: 50%;
+}
+
+/*Botones circulares de la canasta: sumar a la canasta, quitar de la canasta*/
+/*Espacio entre el dato del precio x unidad y los botones*/
+.basket_pie {
+  padding-bottom: 50px;
+}
+
+.basket_pie a {
+  font-family: gondolaWerduleroFont_nombre;
+  background-color: white;
+}
+
+.btn-basket a {
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  -webkit-box-shadow: 0 5px 19px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 5px 19px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 5px 19px 0 rgba(0, 0, 0, 0.19);
+}
+
+.btn-mas-basket {
+  background-color: rgb(233,62,3);
+  background-color: rgba(233,62,3,255); /*Naranja*/
+
+  border-color: rgb(233,62,3);
+  border-color: rgba(233,62,3,255);
+}
+
+.btn-mas-basket:hover {
+  color: white;
+  background-color: #EB9316;
+  background-image: linear-gradient(to bottom, #EB9316, #EB9316);
+  border-color: #EB9316;
+}
+
+.btn-menos-basket {
+  color: rgb(97,78,21);
+  background-color: white;
+}
+
+.btn-menos-basket:hover {
+  color: #EB9316;
+  background-color: whitesmoke;
+}
+
+.btn-basket .btn-mas-basket {
+  padding: 7px 12px 7px 12px;
+}
+
+.btn-basket .btn-menos-basket {
+  padding: 7px 10px 7px 10px;
+}
+.panel-default > .panel-heading {
+  background-image: -webkit-linear-gradient(top, white 0%, white 100%) !important;
+  background-image: -o-linear-gradient(top, white 0%, white 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(white));
+  background-image: linear-gradient(to bottom, white 0%, white 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffwhite', endColorstr='#ffwhite', GradientType=0);
+  background-repeat: repeat-x;
+}
+
+.detalle_entrega {
+  text-align: left;
+  font-size: 15px;
+  font-weight: bold;
+  color: rgba(97,78,21, 0.5) !important;
+  text-decoration: none;
+  outline: none;
+}
+
+.detalle_entrega:focus,
+.detalle_entrega:hover{
+  color: #EB9316;
+  text-decoration: none;
+}
+
+.detalle_entrega .basket_camion {
+  color: green;
+  font-size: 25px;
+  position: relative;
+  top: -5px;
+  right: 2px;
+  text-decoration: none;
+}
+
+.detalle_entrega_subtitulo {
+  font-size:15px;
+  text-align:left;
+  color:green;
+}
+
+.pre-scrollable {
+  max-height: 200px;
+}
+
+.agregar_direccion_canasta,
+.agregar_direccion_canasta a {
+  color: rgba(97,78,21, 0.5) !important;
+
+}
+
+.btn-comprar {
+  color: #ffffff;
+  font-weight: bolder;
+  font-size: 20px;
+  background-color: rgb(233,62,3);
+  background-color: rgba(233,62,3,255); /*Naranja*/
+  border-color: rgb(233,62,3);
+  border-color: rgba(233,62,3,255);
+}
+
+.basket_envio {
+  font-size: 12px;
+  color: green;  
+  text-align: right;
+}
+
+.basket_subtotal {
+  font-size: 15px;
+  color: green;  
+  text-align: right;
+}
+
+.basket_total {
+  font-size: 20px;
+  color: green;  
+  font-weight: bolder;
+  text-align: right;
+}
+
+.basket_confirmacion {
+  text-align: left; 
+}
+
+.btn-comprar:hover {
+  color: #ffffff;
+  background-color: #EB9316;
+  background-image: linear-gradient(to bottom, #EB9316, #EB9316);
+  border-color: #EB9316;
+}
+
+/* POPOVER */
+.contenedor_canasta {
+ /*  padding-top: 10px; */
+}
+
+.popover-content {
+ /*  min-width:290px; */
+  width: 290px;
+  /* padding: 5px; */
+}
+
+.popover.bottom {
+  margin-top: 10px;
+  margin-left: -100px;
+  border-bottom-color: orange;
+  border-top-color: orange;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+}
+
+.popover.bottom > .arrow {
+  top: -12px;
+  margin-left: 28%;
+  border-bottom-color: orange;
+}
+
+.popover.bottom > .arrow:after {
+  top: 0;
+  margin-left: -10px;
+  border-top-width: 2px;
+  border-bottom-color: orange;
+}
+
+.addr_basket,
+.addr_basket a {
+  font-size: 12px;
+  vertical-align: bottom;
+  position: relative;
+  bottom: 2px;
+  padding: 0;
+}
+.btn_addr_basket,
+.btn_addr_basket a {
+  font-size: 10px;
+
+  bottom: 12px;
+  color: rgba(97,78,21, 0.5) !important;
+  padding-left: 2px;
+}
+
+.btn_addr_basket a:hover {
+  color: orange !important;
+}
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-color: transparent;
+    padding: 5px;
+}
+
+.addr_basket input[type=radio]:focus + label:before {
+  outline: none;
+}

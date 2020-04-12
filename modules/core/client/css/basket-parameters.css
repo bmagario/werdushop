@@ -1,0 +1,134 @@
+/* Parámetros de la canasta - administrador */
+.nav-basket-parameters {
+  border-radius: 5px !important;
+  padding: 2px;
+}
+
+.nav-basket-parameters > .active > a {
+  border: 1px solid transparent;
+}
+
+.nav-basket-parameters > li.active > a {
+  background-color: orange !important;
+  border-radius: 5px !important;
+  font-weight: bold;
+}
+
+.nav-basket-parameters > li > a {
+  border-radius: 5px !important;
+  background-color: lightgreen !important;
+  color:  green;
+  border: 1px solid lightgreen;
+}
+
+.nav-basket-parameters > li > a:hover,
+.nav-basket-parameters > li > a:focus {
+  border: 1px solid white;
+  font-weight: bold;
+}
+
+.picker-day.picker-other-month-custom{
+  background-color: #d17357;
+  color: #fff;
+}
+
+.picker-day.picker-other-month-custom:hover{
+  cursor: pointer;
+  background-color: #ae5d4a;
+  color: #fff;
+}
+
+.picker-day.picker-other-month-custom.picker-selected{
+  background-color: #9c5244;
+}
+
+.picker-day.holiday{
+  background-color: #00ffa2;
+  color: #fff;
+}
+
+.picker-day.holiday.picker-selected{
+  background-color: #00ae69;
+  color: #fff;
+}
+
+.picker-day.holiday.picker-off{
+  background-color: #00a267;
+  color: #fff;
+  cursor: default;
+}
+
+.picker-day.holiday:not(.picker-off):hover{
+  background-color: #00e795;
+  color: #fff;
+}
+
+
+.picker-day.birthday:not(.picker-selected){
+  background-color: #ded100;
+  color: #000;
+}
+
+.picker-navigate-left-arrow:before {
+  font-weight: bold;
+  font-size: 180%;
+  font-family: FontAwesome;
+  content: "\f0d9";
+  color: #ded100 !important;
+}
+.picker-navigate-right-arrow:after {
+  font-weight: bold;
+  font-size: 180%;
+  font-family: FontAwesome;
+  content: "\f0da";
+  color: #ded100 !important;
+}
+
+.picker-navigate-right-arrow, .picker-navigate-left-arrow {
+  color: transparent;
+}
+
+input.btn-guardar {
+  border-radius: 10px 10px 10px 10px !important;
+  -moz-border-radius: 10px 10px 10px 10px !important;
+  -webkit-border-radius: 10px 10px 10px 10px !important;
+  border: 2px solid blue !important;
+}
+
+label.btn-dia {
+  border-radius: 10px 10px 10px 10px !important;
+  -moz-border-radius: 10px 10px 10px 10px !important;
+  -webkit-border-radius: 10px 10px 10px 10px !important;
+  border: 1px solid transparent !important;
+}
+
+.panel-dias-no-laborales {
+/*   animation-duration: 3s;
+  animation-name: slideindates; */
+}
+.panel-dias-laborales {
+/*   animation-duration: 3s;
+  animation-name: slideindates; */
+}
+
+@keyframes slideindates {
+  /* from {
+    margin-left: 100%;
+    width: 0;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;  
+  } */ 
+  from { 
+    transform: translate(100%, 0) scale(0,0); /*W3C*/
+   -moz-transform: translate(100%, 0) scale(0,0); /*Firefox*/
+   -webkit-transform: translate(100%, 0) scale(0,0); /*Safari y Chrome*/
+   -o-transform: translate(100%, 0) scale(0,0); /*Opera*/
+   -ms-transform: translate(100%, 0) scale(0,0); /*IE 9*/
+  }
+  to { 
+    
+  }
+}

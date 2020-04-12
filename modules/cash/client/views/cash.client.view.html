@@ -1,0 +1,176 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>Caja N° {{cash.id_cash}} - {{cash.created | date:'dd/MM/yyyy HH:mm:ss'}}</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <div class="input-group">
+        <span class="input-group-addon">Zona</span>
+        <select id="zones" name="zones" class="form-control" ng-options="option.id_zone as option.full_zone_name for option in zoneOptions"  ng-model="zone" ng-change="changeZone()" required>
+        </select>
+      </div>
+    </div>
+  </div>
+  </br>
+
+  <!-- Saldos de Caja  -->
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="widget widget-seven background-success">
+        <div class="widget-body">
+          <div href="javascript: void(0);" class="widget-body-inner">
+            <h4 class="text-uppercase">Saldo Inicial</h4>
+            <i class="counter-icon fa fa-money"></i>
+            <span class="counter-count">
+              <span>{{ cash.start_amount | currency:'$'}}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-show="cash.start_cash_count !== null">
+      <div class="widget widget-seven" ng-class="cash.start_cash_count_diff >= 0 ? 'background-success': 'background-danger'">
+        <div class="widget-body">
+          <div href="javascript: void(0);" class="widget-body-inner">
+            <h4 class="text-uppercase">Arqueo Inicial</h4>
+            <i class="counter-icon fa fa-money"></i>
+            <span class="counter-count">
+              <span>{{ cash.start_cash_count | currency:'$'}}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-show="cash.start_cash_count !== null">
+      <div class="widget widget-seven" ng-class="cash.total >= cash.start_amount ? 'background-success': 'background-danger'">
+        <div class="widget-body">
+          <div href="javascript: void(0);" class="widget-body-inner">
+            <h4 class="text-uppercase">Saldo Actual</h4>
+            <i class="counter-icon fa fa-money"></i>
+            <span class="counter-count">
+              <span>{{ cash.total | currency:'$'}}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carga Arqueo Inicial -->
+  <div class="row" ng-show="cash.start_cash_count === null">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">Arqueo Inicial</span>
+          <div class="input-group-btn">
+            <input type="number" class="form-control" placeholder="$" ng-model="start_cash_count"
+                   ng-keypress="$event.keyCode == 13 && loadStartCashCount()">
+           </div>
+           <div class="input-group-btn left">
+             <button type="button" class="btn btn-primary" ng-click="loadStartCashCount()">
+               <i class="fa fa-plus"></i> Agregar
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carga Arqueo Final (Cierre de Caja) -->
+  <div class="row" ng-show="cash.start_cash_count !== null">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">Arqueo Final</span>
+          <div class="input-group-btn">
+            <input type="number" class="form-control" placeholder="$" ng-model="final_cash_count"
+                   ng-keypress="$event.keyCode == 13 && loadFinalCashCount()">
+           </div>
+           <div class="input-group-btn left">
+             <button type="button" class="btn btn-primary" ng-click="loadFinalCashCount()">
+               <i class="fa fa-plus"></i> Cerrar Caja
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+
+  <!-- Payment Methods -->
+  <div class="row" ng-show="cash.start_cash_count !== null">
+    <div class="col-md-8">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">Pago/Cobro</span>
+          <div class="input-group-btn">
+            <select id="subaccounts" name="subaccounts" class="form-control"
+                    ng-options="option.description_deuda group by option.tipo_cuenta for option in subaccountOptions"
+                    ng-model="payment" required>
+            </select>
+          </div>
+          <div class="input-group-btn">
+            <input type="number" class="form-control" placeholder="$" ng-model="amount"
+                   ng-keypress="$event.keyCode == 13 && loadPayment()">
+           </div>
+           <div class="input-group-btn left">
+             <button type="button" class="btn btn-primary" ng-click="loadPayment()">
+               <i class="fa fa-plus"></i> Agregar
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+
+  <!-- Tabla de la Caja -->
+  <table ng-show="cash.start_cash_count !== null"
+         ng-table="tableParams" class="table table-bordered table-condensed editable-table"
+         ng-table-columns-binding="vm.boundColsPayments" show-group="vm.isGroupHeaderRowVisible" ng-form="vm.tableFormPayments">
+     <colgroup>
+       <col width="40%" />
+       <col width="20%" />
+       <col width="20%" />
+       <col width="20%" />
+     </colgroup>
+     <!-- Grupos -->
+    <tr class="ng-table-group" ng-repeat-start="group in $groups">
+      <td colspan="{{$groups.visibleColumnCount}}">
+         <a href="" ng-click="group.$hideRows = !group.$hideRows">
+           <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+           <strong>{{ group.value }}</strong>
+         </a>
+       </td>
+    </tr>
+     <!-- Filas -->
+    <tr ng-hide="group.$hideRows" ng-repeat="subaccount in group.data" ng-form="rowForm">
+      <td data-title="'Nombre'" sortable="'cash_type'">{{subaccount.cash_detail_description}}</td>
+      <td data-title="'Tipo'">{{subaccount.tipo_cuenta}}</td>
+      <td data-title="'Creado'" sortable="'cash_created'">{{subaccount.cash_created | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+      <td data-title="'Total'">{{subaccount.amount | currency:"$"}}</td>
+    </tr>
+    <tr ng-repeat-end>
+       <td class="text-success text-right" ng-attr-colspan={{3}}>
+         <strong>Resumen:</strong>
+       </td>
+       <td>
+         <em>{{sum_subaccounts(group.data) | currency:'$'}}</em>
+       </td>
+    </tr>
+    <tr>
+       <td class="text-success text-right" ng-attr-colspan={{3}}>
+         <strong>Diferencia Arqueo Inicial:</strong>
+       </td>
+       <td>
+         <em>{{cash.start_cash_count_diff | currency:'$'}}</em>
+       </td>
+    </tr>
+  </table>
+</section>

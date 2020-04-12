@@ -1,0 +1,14 @@
+<section>
+  <div ng-controller="BasketController">
+    <form name="commentBasketForm">
+      <div class="form-group">
+        <label for="message">{{basketS.comment_purchase}}</label>
+        <button class="btn btn-icon" ng-click="basketS.addCommentPurchase()">
+          <span class="" ng-class="{ 'glyphicon glyphicon-plus-sign': basketS.add_comment, 'glyphicon glyphicon-minus-sign': !basketS.add_comment }"></span>
+        </button>
+<!-- <button class="btn btn-icon"><span class="glyphicon glyphicon-star" ng-class="{active: item.star}"></span></button> -->
+        <textarea ng-if="!basketS.add_comment" class="form-control" maxlength="225" rows="2" ng-model="basketS.observation" id="comment_purchase" placeholder="Consideraciones para tu pedido"></textarea>
+      </div>
+    </form>
+  </div>
+</section>

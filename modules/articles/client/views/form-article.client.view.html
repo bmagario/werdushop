@@ -1,0 +1,290 @@
+<section>
+  <div class="page-header left">
+    <h1>{{vm.article.id_article ? 'Editar Artículo' : 'Alta Artículo'}}</h1>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6">
+      <form name="vm.form.articleForm" class="" ng-submit="vm.save(vm.form.articleForm.$valid)" novalidate>
+        <!-- Nombre -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="name">Nombre</label>
+          <div class="col-sm-10">
+            <input name="name" type="text" ng-model="vm.article.name" id="name" class="form-control" placeholder="Nombre" required>
+            <div ng-messages="vm.form.articleForm.name.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar el nombre del artículo.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Descripcion -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="description">Descripción</label>
+          <div class="col-sm-10">
+            <textarea name="description" type="text" ng-model="vm.article.description" id="description" class="form-control" 
+            placeholder="Descripción"></textarea>
+            <div ng-messages="vm.form.articleForm.description.$error" role="alert">
+              <p class="help-block error-text"></p>
+            </div>
+          </div>
+        </div>
+        <!-- Info Nutri -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="nutritional_information">Info Nutricional</label>
+          <div class="col-sm-10">
+            <input name="nutritional_information_description" type="text"
+            ng-model="vm.article.nutritional_information" id="nutritional_information" 
+            class="form-control" placeholder="Info Nutricional">
+            <div ng-messages="vm.form.articleForm.nutritional_information.$error" role="alert">
+              <p class="help-block error-text"></p>
+            </div>
+          </div>
+        </div>
+         <!-- Subgrupo y Marca -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="subgroup">Subgrupo</label>
+          <div class="col-sm-4">
+            <select id="subgroup" name="subgroup" class="form-control" ng-model="vm.article.id_subgroup" ng-options="option.id_subgroup as option.name for option in vm.subgroupOptions" required>
+            </select>
+            <div ng-messages="vm.form.articleForm.subgroup.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar el Subgrupo.</p>
+            </div>
+          </div>
+          <label class="control-label col-sm-2" for="brand">Marca</label>
+          <div class="col-sm-4">
+            <select id="brand" name="brand" class="form-control" ng-model="vm.article.id_brand" ng-options="option.id_brand as option.name for option in vm.brandOptions">
+                <option value="">Sin Marca</option>
+              </select>
+            <div ng-messages="vm.form.articleForm.brand.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar la Marca.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Escala y Unidad de Medida -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="scale">Escala</label>
+          <div class="col-sm-4">
+            <input name="scale" type="text" ng-model="vm.article.scale" id="scale" class="form-control" placeholder="Escala">
+          </div>
+          <label class="control-label col-sm-2" for="measurement_unit">U. Med.</label>
+          <div class="col-sm-4">
+            <select id="measurement_unit" name="measurement_unit" class="form-control" 
+            ng-options="option.id_measurement_unit as option.name + ' ' + '('+option.abbreviation+')' for option in vm.measurementUnitOptions" ng-model="vm.article.id_measurement_unit" required>
+            </select>
+            <div ng-messages="vm.form.articleForm.measurement_unit.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar la unidad de medida.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="equivalence">Equivalencia</label>
+          <div class="col-sm-4">
+            <input name="equivalence" type="number" ng-model="vm.article.equivalence" id="equivalence" class="form-control" placeholder="Equivalencia" required>
+            <div ng-messages="vm.form.articleForm.equivalence.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar la equivalencia</p>
+            </div>
+          </div>
+          <label class="control-label col-sm-2" for="measurement_unit_equivalence">U. Med. Eq.</label>
+          <div class="col-sm-4">
+            <select id="measurement_unit_equivalence" name="measurement_unit_equivalence" class="form-control" 
+            ng-options="option.id_measurement_unit as option.name + ' ' + '('+option.abbreviation+')' for option in vm.measurementUnitEqOptions" ng-model="vm.article.id_measurement_unit_equivalence" required>
+            </select>
+            <div ng-messages="vm.form.articleForm.measurement_unit_equivalence.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar la unidad de medida.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Mostrar Equivalencia y Fragilidad -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="show_equivalence">Mostrar Equivalencia</label>
+          <div class="col-sm-1">
+            <input name="show_equivalence" type="checkbox" ng-checked="vm.article.show_equivalence" ng-model="vm.article.show_equivalence" id="show_equivalence" class="form-control" placeholder="Mostrar Equivalencia en Góndola">
+          </div>
+          <label class="control-label col-sm-2 col-sm-offset-3" for="fragility">Fragilidad</label>
+          <div class="col-sm-4">
+            <select id="fragility" name="fragility" class="form-control" 
+            ng-options="option.fragility as option.fragility + ' - ' + option.description for option in vm.fragilityOptions" ng-model="vm.article.fragility" required>
+            </select>
+            <div ng-messages="vm.form.articleForm.fragility.$error" role="alert">
+            </div>
+          </div>
+        </div>
+        <!-- Indice de expiracion -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="base_expiration">Índ. Expiración</label>
+          <div class="col-sm-4">
+            <input name="base_expiration" type="number" ng-model="vm.article.base_expiration" id="base_expiration" class="form-control" placeholder="Índice Expiración">
+            <div ng-messages="vm.form.articleForm.base_expiration.$error" role="alert">
+            </div>
+          </div>
+          <label class="control-label col-sm-2" for="temperature">Temperatura</label>
+          <div class="col-sm-4">
+            <input name="temperature" type="number" ng-model="vm.article.temperature" id="temperature" class="form-control" placeholder="Temperatura">
+            <div ng-messages="vm.form.articleForm.temperature.$error" role="alert">
+            </div>
+          </div>
+        </div>
+        <!-- Humedad y Color -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="humidity">Humedad</label>
+          <div class="col-sm-4">
+            <input name="humidity" type="number" ng-model="vm.article.humidity" id="humidity" class="form-control" placeholder="Humedad">
+            <div ng-messages="vm.form.articleForm.humidity.$error" role="alert">
+            </div>
+          </div>
+          <label class="control-label col-sm-2" for="color">Color</label>
+          <div class="col-sm-4">
+            <input colorpicker="hex" type="text" name="color" ng-model="vm.article.color" class="form-control" />
+            <h3 class="gondola_name" style="color:{{vm.article.color}}">{{vm.article.name}}<h3>
+            <div ng-messages="vm.form.articleForm.color.$error" role="alert">
+            </div>
+          </div>
+        </div>
+        <!-- Temporada -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="season">Temporada</label>
+          <div class="col-sm-12">
+            <table class="table articles_alta">
+              <thead>
+                <tr>
+                  <th>Ene</th>
+                  <th>Feb</th>
+                  <th>Mar</th>
+                  <th>Abr</th>
+                  <th>May</th>
+                  <th>Jun</th>
+                  <th>Jul</th>
+                  <th>Ago</th>
+                  <th>Sep</th>
+                  <th>Oct</th>
+                  <th>Nov</th>
+                  <th>Dic</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <select id="season1" name="season1" 
+                            class="form-control temporada_{{vm.article.season_1.name}}" 
+                            ng-model="vm.article.season_1" 
+                            ng-init="vm.article.season_1 = vm.seasonJanuaryOptions[vm.article.season_1]" 
+                            ng-options="option.abbreviation for option in vm.seasonJanuaryOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season2" name="season2" 
+                            class="form-control temporada_{{vm.article.season_2.name}}" 
+                            ng-model="vm.article.season_2"
+                            ng-init="vm.article.season_2 = vm.seasonFebruaryOptions[vm.article.season_2]" 
+                            ng-options="option.abbreviation for option in vm.seasonFebruaryOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season3" name="season3" 
+                            class="form-control temporada_{{vm.article.season_3.name}}" 
+                            ng-model="vm.article.season_3"
+                            ng-init="vm.article.season_3 = vm.seasonMarchOptions[vm.article.season_3]" 
+                            ng-options="option.abbreviation for option in vm.seasonMarchOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season4" name="season4" 
+                            class="form-control temporada_{{vm.article.season_4.name}}" 
+                            ng-model="vm.article.season_4" 
+                            ng-init="vm.article.season_4 = vm.seasonAprilOptions[vm.article.season_4]"
+                            ng-options="option as option.abbreviation for option in vm.seasonAprilOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season5" name="season5" 
+                            class="form-control temporada_{{vm.article.season_5.name}}" 
+                            ng-model="vm.article.season_5" 
+                            ng-init="vm.article.season_5 = vm.seasonMayOptions[vm.article.season_5]"
+                            ng-options="option as option.abbreviation for option in vm.seasonMayOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season6" name="season6" 
+                            class="form-control temporada_{{vm.article.season_6.name}}" 
+                            ng-model="vm.article.season_6"
+                            ng-init="vm.article.season_6 = vm.seasonJuneOptions[vm.article.season_6]" 
+                            ng-options="option as option.abbreviation for option in vm.seasonJuneOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season7" name="season7" 
+                            class="form-control temporada_{{vm.article.season_7.name}}" 
+                            ng-model="vm.article.season_7" 
+                            ng-init="vm.article.season_7 = vm.seasonJulyOptions[vm.article.season_7]"
+                            ng-options="option as option.abbreviation for option in vm.seasonJulyOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season8" name="season8" 
+                            class="form-control temporada_{{vm.article.season_8.name}}" 
+                            ng-model="vm.article.season_8" 
+                            ng-init="vm.article.season_8 = vm.seasonAugustOptions[vm.article.season_8]"
+                            ng-options="option as option.abbreviation for option in vm.seasonAugustOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season9" name="season9" 
+                            class="form-control temporada_{{vm.article.season_9.name}}" 
+                            ng-model="vm.article.season_9"
+                            ng-init="vm.article.season_9 = vm.seasonSeptemberOptions[vm.article.season_9]" 
+                            ng-options="option.abbreviation for option in vm.seasonSeptemberOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season10" name="season10" 
+                            class="form-control temporada_{{vm.article.season_10.name}}" 
+                            ng-model="vm.article.season_10" 
+                            ng-init="vm.article.season_10 = vm.seasonOctoberOptions[vm.article.season_10]"
+                            ng-options="option as option.abbreviation for option in vm.seasonOctoberOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season11" name="season11" 
+                            class="form-control temporada_{{vm.article.season_11.name}}" 
+                            ng-model="vm.article.season_11" 
+                            ng-init="vm.article.season_11 = vm.seasonNovemberOptions[vm.article.season_11]"
+                            ng-options="option as option.abbreviation for option in vm.seasonNovemberOptions">
+                    </select>
+                  </td>
+                  <td>
+                    <select id="season12" name="season12" 
+                            class="form-control temporada_{{vm.article.season_12.name}}" 
+                            ng-model="vm.article.season_12" 
+                            ng-init="vm.article.season_12 = vm.seasonDecemberOptions[vm.article.season_12]"
+                            ng-options="option as option.abbreviation for option in vm.seasonDecemberOptions">
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Submit -->
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.article.id_article ? 'Actualizar' : 'Crear'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </form>
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6">
+      <div ng-show="vm.article.id_article" ng-include src="'modules/articles/client/views/image-article.client.view.html'"></div>
+    </div>
+  </div>
+  <!-- Botonera -->
+  <div class="col-md-12">
+    <a ng-show="vm.article.id_article" class="btn btn-primary" data-ui-sref="articles.view({ articleId: vm.article.id_article })">
+      Ver Artículo
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.atras()">
+        Atrás
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.go_articulos()">
+        Artículos
+    </a>
+  </div>
+</section>

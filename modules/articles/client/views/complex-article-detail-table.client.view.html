@@ -1,0 +1,88 @@
+<!-- Agregar Articulos -->
+<br />
+<div class="row">
+  <div class="col-lg-4">
+    <div class="input-group">
+      <input ng-change="" type="text" ng-model="vm.articleSelected" placeholder="Buscar Artículos"
+             typeahead="articulo as articulo.name for articulo in getArticles($viewValue)"
+             typeahead-loading="loadingArticles"
+             typeahead-editable="false"
+             ng-keypress="$event.keyCode == 13 && addArticle()"
+             class="form-control">
+       <div class="input-group-btn">
+         <button class="btn btn-primary" title="Agregar Artículo" ng-click="addArticle()">
+           <span class="glyphicon glyphicon-plus"></span>
+         </button>
+       </div>
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered table-striped table-condensed  editable-table" ng-form="vm.tableForm">
+    <tr>
+      <th></th>
+      <th class="center">Código</th>
+      <th class="center">Nombre</th>
+      <th class="center">Escala Orig.</th>
+      <th class="center">Escala Nueva</th>
+      <th class="center">Umed. Escala Nueva</th>
+      <th class="center">Equiv. Orig.</th>
+      <th class="center">Equivalencia</th>
+    </tr>
+    <tr data-ng-repeat="article in vm.complex_article.articles" ng-form="rowForm">
+      <td>
+        <a class="btn btn-danger" title="Eliminar artículo" data-ng-click="vm.remove(article)">
+          <i class="glyphicon glyphicon-trash"></i>
+        </a>
+        <button class="btn btn-default" ng-if="article.isEditing" ng-click="vm.cancelChanges(article, rowForm)">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button class="btn btn-primary" title="Editar Artículo" ng-if="!article.isEditing" ng-click="vm.setEditing(article, true)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button class="btn btn-primary" ng-if="article.isEditing" ng-disabled="!vm.hasChanges(article, rowForm)"
+                ng-click="vm.change_article(article)">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+      </td>
+      <td>{{article.full_code}}</td>
+      <td>{{article.name}}</td>
+      <td>{{article.scale}} {{article.measurement_unit_abbreviation_plural}}</td>
+      <td ng-switch="article.isEditing" ng-class="scale_complex.$dirty ? 'bg-warning' : ''">
+        <span ng-switch-default class="editable-text">
+          {{article.scale_complex}}
+        </span>
+        <div class="controls" ng-class="scale_complex.$invalid && scale_complex.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <input type="text" name="scale_complex" ng-model="article.scale_complex"
+                 class="editable-input form-control input-sm"
+                 ng-keypress="$event.keyCode == 13 && vm.change_article(article)" required />
+        </div>
+      </td>
+      <td ng-switch="article.isEditing" ng-class="scale_complex.$dirty ? 'bg-warning' : ''">
+        <span ng-switch-default class="editable-text">
+          <select class="form-control" disabled
+            ng-options="option.id_measurement_unit as option.name + ' ' + '('+option.abbreviation+')' for option in vm.measurementUnitOptions"
+            ng-model="article.id_measurement_unit_scale">
+          </select>
+        </span>
+        <div class="controls" ng-class="id_measurement_unit_scale.$invalid && id_measurement_unit_scale.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <select class="form-control"
+          ng-options="option.id_measurement_unit as option.name + ' ' + '('+option.abbreviation+')' for option in vm.measurementUnitOptions"
+          ng-model="article.id_measurement_unit_scale">
+        </select>
+        </div>
+      </td>
+      <td>{{article.equivalence}} {{article.measurement_unit_equivalence_abbreviation}}</td>
+      <td ng-switch="article.isEditing" ng-class="equivalence_complex.$dirty ? 'bg-warning' : ''">
+        <span ng-switch-default class="editable-text">
+          {{article.equivalence_complex}} {{article.measurement_unit_equivalence_abbreviation}}
+        </span>
+        <div class="controls" ng-class="equivalence_complex.$invalid && equivalence_complex.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <input type="text" name="equivalence_complex" ng-model="article.equivalence_complex"
+                 class="editable-input form-control input-sm"
+                 ng-keypress="$event.keyCode == 13 && vm.change_article(article)" required />
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

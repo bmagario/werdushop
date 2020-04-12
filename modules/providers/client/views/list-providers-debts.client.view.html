@@ -1,0 +1,25 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Cta. Cte. Proveedores</h1>
+      </div>
+    </div>
+  </div>
+
+  <table ng-table="tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+    <tr data-ng-repeat="provider in $data">
+      <td data-title="'Nombre Fantasía'" filter="{ nombre_fantasia: 'text' }" sortable="'nombre_fantasia'">{{provider.nombre_fantasia}}</td>
+      <td data-title="'CUIT'" filter="{ cuit: 'text' }">{{provider.cuit}}</td>
+      <td data-title="'Total'">{{ provider.total | currency:'$' }}</td>
+      <td>
+        <div class="table-actions">
+         <div class="table-actions">
+           <a class="btn btn-primary" title="Ver" data-ui-sref="providers_debts.view({ id_provider: provider.id_provider })">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </table>
+</section>

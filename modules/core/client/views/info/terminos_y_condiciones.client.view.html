@@ -1,0 +1,23 @@
+<div class="container-fluid" ng-controller="FooterController">
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+
+      <div ng-repeat-start="parrafo in terminosgenerales" class="animate-repeat-category">
+        <button class="btn btn-warning btn-block btn-sm" ng-click="toggleParrafo(parrafo)">
+          {{ parrafo.titulo }}
+          <span class="expand-indicator" ng-show="parrafo.expanded">&mdash;</span>
+          <span class="expand-indicator" ng-show="!parrafo.expanded">+</span>
+        </button>
+        <div class="list-items animate-show-item" ng-show="parrafo.expanded">
+          {{parrafo.texto}}
+        </div>
+      </div>
+
+      <div ng-repeat-end>
+        <button ng-show="parrafo.expanded" class="btn btn-warning btn-block btn-sm animate-show-item" disabled="disabled">/ {{ parrafo.titulo }}</button>
+        <hr>
+      </div>
+        
+    </div>
+  </div>
+</div>

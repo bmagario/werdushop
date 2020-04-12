@@ -1,0 +1,103 @@
+.well,
+.werdu-footer {
+  text-align: center;
+  -moz-border-radius: 0 0 8px 8px;
+  -webkit-border-radius: 0 0 8px 8px;
+  border-radius: 0 0 8px 8px;
+  border-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.werdu-footer a{
+  text-decoration: none;
+
+  color: brown;
+}
+.werdu-footer a:hover,
+.werdu-footer a:focus {
+  text-decoration: none;
+
+  color: #434d55;
+}
+
+.copyright p,
+.werduinstrucciones2 p,
+.werduinstrucciones1 p {
+  color: brown;
+}
+.werduinstrucciones2 i {
+ /* background: rgb(11,106,72);*/
+
+ /*naranja*/
+ /* background: rgb(252,75,17);*/
+
+ /*color remolacha*/
+  background: rgb(206,25,52);
+  border: 5px solid white;
+  border-radius: 100%;
+
+  color: white;
+
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(00, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.footeroculto {
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.footerexpandido:before {
+  font-family: FontAwesome;
+  content: "\f077";
+}
+
+.footeroculto:before {
+  font-family: FontAwesome;
+  content: "¿Cómo funciona? \f078";
+}
+
+.footerexpandido {
+  cursor: pointer;
+  z-index: 1;
+  position: relative;
+}
+
+.copyright{
+	bottom: 0;
+	font-size: xx-small;
+}
+
+
+.werduinstrucciones1 {
+  font-size: medium;
+/*  padding-bottom: 2%;*/
+}
+
+.likeface {
+  font-size: medium;
+  text-decoration: none;
+}
+
+.werduinstrucciones2 {
+  font-size: large;
+  text-align: center;
+  padding-top: 0;
+  padding-bottom: 2%;
+}
+
+.paso1 {
+  font-size: 120%;
+  padding: 5%;
+}
+.paso2, .paso3 {
+  font-size: 150%;
+  padding: 4%;
+}
+
+.zonashoras {
+  font-size: x-small;
+}

@@ -1,0 +1,116 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>Precios Artículos Complejos</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Select de Localidades -->
+  <div class="input-group col-md-4">
+    <span class="input-group-addon">Localidad</span>
+    <select id="locations" name="locations" class="form-control" ng-options="option.id_location as option.full_location_name for option in locationOptions"  ng-model="location" ng-change="changeLocation()" required>
+    </select>
+  </div>
+  </br>
+  <!-- Botones de Edicion batch -->
+  <div class="btn-group pull-left">
+    <button class="btn btn-default" ng-if="vm.isEditing" ng-click="vm.cancelChanges()">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button>
+    <button class="btn btn-primary" title="Editar Seleccionados" ng-if="!vm.isEditing" ng-click="vm.setEditing(null,true)">
+      <span class="glyphicon glyphicon-pencil"></span>
+    </button>
+    <button class="btn btn-primary" ng-if="vm.isEditing" ng-disabled="!vm.hasChanges()"
+            ng-click="vm.loadPrice()">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
+    <button class="btn btn-success" title="Habilitar Seleccionados" ng-click="vm.enableArticle(null, true)">
+      <span class="glyphicon glyphicon-check"></span>
+    </button>
+    <button class="btn btn-danger" title="Desabilitar Seleccionados" ng-click="vm.enableArticle(null, false)">
+      <span class="glyphicon glyphicon-unchecked"></span>
+    </button>
+  </div>
+  <div class="spinner" ng-src="/modules/core/client/img/loaders/loader.gif" ng-show="loading">Cargando...</div>
+  <!-- Tabla -->
+  <table ng-table="vm.tableParams" class="table table-bordered table-striped table-condensed editable-table" show-filter="true"
+         ng-table-columns-binding="vm.boundCols" show-group="vm.isGroupHeaderRowVisible" ng-form="vm.tableForm">
+      <!-- Grupos -->
+      <tr class="ng-table-group" ng-repeat-start="group in $groups">
+        <td colspan="{{$groups.visibleColumnCount}}">
+          <a href="" ng-click="group.$hideRows = !group.$hideRows">
+            <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+            <strong>{{ group.value }}</strong>
+          </a>
+        </td>
+      </tr>
+      <!-- Filas -->
+      <tr ng-hide="group.$hideRows" ng-repeat="complex_article in group.data" ng-form="rowForm" ng-repeat-end>
+        <td width="30" header="'ng-table/headers/checkbox.html'">
+          <input type="checkbox" ng-model="checkboxes.items[complex_article.id_complex_article]" />
+        </td>
+        <td data-title="Estado" filter="{ id_status: 'select' }" filter-data="states">
+          <!-- Botones de edicion particular -->
+          <button class="btn btn-default" ng-if="complex_article.isEditing" ng-click="vm.cancelChanges(complex_article, rowForm)">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+          <button class="btn btn-primary" title="Editar Artículo" ng-if="!complex_article.isEditing && !vm.isEditing"
+                  ng-click="vm.setEditing(complex_article, true)">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <button class="btn btn-primary" ng-if="complex_article.isEditing"
+                  ng-disabled="!vm.hasChanges(complex_article, rowForm)"
+                  ng-click="vm.loadPrice(complex_article)">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+          <a class="btn btn-success" ng-if="complex_article.enabled" title="Deshabilitar Artículo"
+             ng-click="vm.enableArticle(complex_article, false)">
+            <i class="glyphicon glyphicon-check"></i>
+          </a>
+          <a class="btn btn-danger" ng-if="!complex_article.enabled" title="Habilitar Artículo"
+             ng-click="vm.enableArticle(complex_article, true)">
+            <i class="glyphicon glyphicon-unchecked"></i>
+          </a>
+        </td>
+        <td data-title="'Código'" filter="{ full_code: 'text' }" sortable="'full_code'">{{complex_article.full_code}}</td>
+        <td data-title="'Nombre'" filter="{ name: 'text' }" sortable="'name'">
+          {{complex_article.name}}
+        </td>
+        <td data-title="'Subgrupo'" groupable="'id_subgroup'" filter="{ id_subgroup: 'select' }" filter-data="subgroups">
+          {{complex_article.subgroup_name}}
+        </td>
+        <td data-title="'Precio Unit. Compra'">
+          <a href="#" ng-click="verComplexArticleDetail(complex_article)">
+            <span class='{{complex_article.precio_cambiado}}' ng-init="setPurchasePrice(complex_article)">
+            {{complex_article.purchase_price | currency:'$'}}</span>
+          </a>
+        </td>
+        <td data-title="'Coeficiente'" ng-switch="complex_article.isEditing || (vm.isEditing && checkboxes.items[complex_article.id_complex_article])"
+            ng-class="coeficient.$dirty ? 'bg-warning' : ''">
+          <span ng-switch-default class="editable-text">{{complex_article.coeficient | number: 2}}</span>
+          <div class="controls" ng-class="coeficient.$invalid && coeficient.$dirty ? 'has-error' : ''" ng-switch-when="true">
+            <input type="text" name="coeficient" ng-change="vm.updateFiledsPrice(complex_article, 'coeficient')" ng-model="complex_article.coeficient" class="editable-input form-control input-sm"
+            ng-keypress="$event.keyCode == 13 && vm.loadPrice(complex_article)" required />
+          </div>
+        </td>
+        <td data-title="'Precio Unit. Venta'" ng-switch="complex_article.isEditing || (vm.isEditing && checkboxes.items[complex_article.id_complex_article])"
+            ng-class="price.$dirty ? 'bg-warning' : ''">
+          <span ng-switch-default class="editable-text">{{complex_article.price | currency:'$'}}</span>
+          <div class="controls" ng-class="price.$invalid && price.$dirty ? 'has-error' : ''" ng-switch-when="true">
+            <input type="text" name="price" ng-change="vm.updateFiledsPrice(complex_article, 'price')" ng-model="complex_article.price" class="editable-input form-control input-sm"
+            ng-keypress="$event.keyCode == 13 && vm.loadPrice(complex_article)" required />
+          </div>
+        </td>
+      </tr>
+    </table>
+    <!-- Template para la cabecera checkbox. -->
+    <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+      <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+    </script>
+  </div>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="complex_articles.list">Artículos Complejos</a>
+  </div>
+</section>

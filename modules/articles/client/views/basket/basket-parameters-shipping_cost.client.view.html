@@ -1,0 +1,57 @@
+<section>
+<!-- Select de Localidades/zonas -->
+  <div class="input-group col-md-4">    
+    <span class="input-group-addon">Localidad - Zona</span>
+    <select id="zones" name="zones" class="form-control" ng-options="option as option.full_zone_name group by option.name for option in basketPS.zoneOptions" ng-model="basketPS.selected_zone_loc" ng-change="changeZone()" required><option value="">{{basketPS.selected_zone_loc ? basketPS.selected_zone_loc.full_zone_name : 'Elegir una localidad-zona'}}</option>
+    </select>
+  </div>
+  </br>
+
+  <div class="col-md-6">
+    <form name="shippingCostForm" class="" ng-submit="updateShippingCost(shippingCostForm.$valid)" novalidate>
+      <fieldset class="form-group">
+
+         <div class="form-group row" show-errors>
+            <label class="control-label col-sm-3" for="minimun_purchase">Compra Mínima</label>
+            <div class="col-sm-2">
+              <input type="number" id="minimun_purchase" name="minimun_purchase" class="form-control" ng-model="basketPCostS.minimun_purchase" placeholder="Compra mínima" maxlength="4" size="4" min="0" max="9999"  required>
+              <div ng-messages="shippingCostForm.minimun_purchase.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Debe indicar el costo mínimo de compra.</p>
+              </div>
+            </div>
+          </div>
+        <!--   </br>
+ -->
+          <div class="form-group row" show-errors>
+            <label class="control-label col-sm-3" for="free_shipping">Envío gratuito</label>
+            <div class="col-sm-2">
+              <input type="number" id="free_shipping" name="free_shipping" class="form-control" ng-model="basketPCostS.free_shipping" placeholder="Envío gratuito" maxlength="4" size="4" min="0" max="9999"  required>
+              <div ng-messages="shippingCostForm.free_shipping.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Debe indicar el costo mínimo de la compra para el envío gratis.</p>
+              </div>
+            </div>
+          </div>
+         <!--  </br>
+ -->
+          <div class="form-group row" show-errors>
+            <label class="control-label col-sm-3" for="shipping_cost">Costo de envío</label>
+            <div class="col-sm-2">
+              <input type="number" id="shipping_cost" name="shipping_cost" class="form-control" ng-model="basketPCostS.shipping_cost" placeholder="Costo de envío" maxlength="4" size="4" min="0" max="9999"  required>
+              <div ng-messages="shippingCostForm.shipping_cost.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Debe indicar el costo del envío.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-default" ng-disabled="shippingCostForm.$invalid">{{basketPCostS.id_shipping_conditions ? 'Actualizar' : 'Crear'}}</button>
+          </div>
+
+          <div ng-show="error" class="text-danger">
+            <strong ng-bind="error"></strong>
+          </div>
+
+      </fieldset>
+    </form>
+  </div>
+</section>

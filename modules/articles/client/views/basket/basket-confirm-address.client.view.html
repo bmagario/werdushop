@@ -1,0 +1,50 @@
+<div ng-controller="ChangeAddressController">
+  <form name="sendAddress">
+    <div class="form-group">
+
+      <label for="seladdress" class="detalle_entrega_subtitulo">Domicilio</label>
+
+        <select id="seladdress" class="form-control input-sm" ng-model="basketS.selectedAddress" ng-options="a.street+' '+a.number+' '+a.floor+' '+a.apartment for a in addressS.address">
+          <option value="">A dónde te lo llevamos?</option>
+        </select>
+
+    </div>
+  </form>
+  
+  <li class="agregar_direccion_canasta" ng-click="addressS.openPanelUserAddress()">
+    <a>Cambiar mis direcciones </a><span class="glyphicon glyphicon-pencil"></span>
+  </li>
+</div>
+<!-- 
+<div ng-controller="ChangeAddressController">
+  <label class="detalle_entrega_subtitulo">Domicilio</label>
+  <div class="container-fluid">
+
+  <div class="row">
+    <form name="sendAddress" ng-controller="BasketController">
+    
+      <div ng-repeat="radio in addressS.address" class="form-check">
+        <div class="col-sm-10">
+          <input type="radio" name="selectedAddress" ng-model="$parent.basketS.selectedAddress" id="radio_{{$index}}" ng-value="radio" />
+          <label class=" addr_basket" for="radio_{{$index}}">{{radio.street}} {{radio.number}}.
+            <strong ng-if="radio.floor != ''"> {{radio.floor}} </strong>
+            <strong ng-if="radio.apartment != ''"> "{{radio.apartment}}"</strong>
+          </label>
+        </div>
+        <div class=" btn-group pull-right btn_addr_basket">
+          <a class="btn col-sm-1" ng-click="addressS.openPanelUserAddress(radio)">
+            <span class="media-object glyphicon glyphicon-pencil"></span>
+          </a>            
+          <a class="btn col-sm-1" ng-click="addressS.removeUserAddress(radio)">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </div>
+      </div>
+      <div ng-show="!addressS.address || !addressS.address.length">No tiene direcciones registradas.</div>
+
+    </form>
+  </div>
+  </div>
+  <li class="agregar_direccion_canasta" ng-click="addressS.openPanelUserAddress()"> <span class="glyphicon glyphicon-plus"></span><a>Agregar nueva dirección</a></li>
+
+</div> -->

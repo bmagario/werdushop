@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Grupos</h1>
+      </div>
+    </div>
+  </div>
+
+  <table ng-table="tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+    <tr data-ng-repeat="group in $data">
+      <td data-title="'Código'" filter="{ group_code: 'text' }" sortable="'group_code'">{{group.code | zpad:2}}</td>
+      <td data-title="'Nombre'" filter="{ group_name: 'text' }" sortable="'id_group'">{{group.name}}</td>
+      <td data-title="'Complejo'">{{group.complex ? 'SI' : 'NO'}}</td>
+      <td data-title="'Estado'" filter="{ id_status: 'select' }" filter-data="states">{{group.status_name}}</td>
+      <td data-title="'Creado'" sortable="'group_created'">{{group.created | date:'dd/MM/yyyy'}}</td>
+      <td>
+        <div class="table-actions">
+         <div class="table-actions">
+           <a class="btn btn-primary" title="Ver" data-ui-sref="groups.view({ groupId: group.id_group })">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
+          <a class="btn btn-primary" title="Editar" data-ui-sref="groups.edit({ groupId: group.id_group })">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a class="btn btn-danger" title="Baja" data-ng-click="remove(group)">
+            <i class="glyphicon glyphicon-trash"></i>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="groups.create">Crear Grupo</a>
+  </div>
+</section>

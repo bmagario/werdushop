@@ -1,0 +1,155 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Relevamiento Precios</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Select de Localidades -->
+  <div class="input-group col-md-4">
+    <span class="input-group-addon">Localidad</span>
+    <select id="locations" name="locations" class="form-control" ng-options="option.id_location as option.full_location_name for option in locationOptions"  ng-model="location" ng-change="changeLocation()" required>
+    </select>
+  </div>
+  <h3 ng-if="id_survey_order !== null">Orden de Relevamiento N° {{ survey_order_number }}</h3>
+  <h3 ng-if="id_survey_order === null">Agregar artículo para crear orden de relevamiento</h3>
+  </br>
+  <!-- Botones de Edicion batch -->
+  <div class="btn-group pull-left col-md-12">
+    <button class="btn btn-default" ng-if="vm.isEditing" ng-click="vm.cancelChanges()">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button>
+    <button class="btn btn-primary" title="Editar Seleccionados" ng-if="!vm.isEditing" ng-click="vm.setEditing(null,true)">
+      <span class="glyphicon glyphicon-pencil"></span>
+    </button>
+    <button class="btn btn-primary" ng-if="vm.isEditing" ng-disabled="!vm.hasChanges()"
+            ng-click="vm.loadSurvey()">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
+    <button class="btn btn-success" title="Habilitar Seleccionados" ng-click="vm.enableArticle(null, true)">
+      <span class="glyphicon glyphicon-check"></span>
+    </button>
+    <button class="btn btn-danger" title="Desabilitar Seleccionados" ng-click="vm.enableArticle(null, false)">
+      <span class="glyphicon glyphicon-unchecked"></span>
+    </button>
+    <div class="col-lg-4">
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button class="btn btn-primary" title="Compra Impulsiva" ng-click="addArticuloSurvey()">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+        </div>
+        <input ng-change="" type="text" ng-model="articleSelected" placeholder="Buscar Artículos"
+               typeahead="articulo as articulo.name for articulo in getArticles($viewValue)"
+               typeahead-loading="loadingArticles"
+               typeahead-editable="false"
+               ng-keypress="addArticuloSurvey()"
+               class="form-control">
+        <!-- <i ng-show="loadingArticles" class="glyphicon glyphicon-refresh"></i> -->
+      </div>
+    </div>
+    <button class="btn btn-primary" title="Cerrar Orden de Compra" ng-click="closeSurveyOrder()">
+      <span class="glyphicon glyphicon-checked">Cerrar</span>
+    </button>
+  </div>
+  <div class="spinner" ng-src="/modules/core/client/img/loaders/loader.gif" ng-show="loading">Cargando...</div>
+  <!-- Tabla -->
+  <table ng-table="vm.tableParams" class="table table-bordered table-condensed editable-table" show-filter="true"
+         ng-table-columns-binding="vm.boundCols" show-group="vm.isGroupHeaderRowVisible" ng-form="vm.tableForm">
+      <colgroup>
+        <col width="10%" />
+        <col width="12%" />
+        <col width="5%" />
+        <col width="10%" />
+        <col width="10%" />
+        <col width="8%" />
+        <col width="8%" />
+        <col width="8%" />
+        <col width="6%" />
+        <col width="10%" />
+      </colgroup>
+      <!-- Grupos -->
+      <tr class="ng-table-group" ng-repeat-start="group in $groups">
+        <td colspan="{{$groups.visibleColumnCount}}">
+          <a href="" ng-click="group.$hideRows = !group.$hideRows">
+            <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+            <strong>{{ group.value }}</strong>
+          </a>
+        </td>
+      </tr>
+      <!-- Filas -->
+      <tr ng-hide="group.$hideRows" ng-repeat="article in group.data" ng-form="rowForm" ng-repeat-end
+          ng-class="vm.getClassRow(article)">
+        <td width="30" header="'ng-table/headers/checkbox.html'">
+          <input type="checkbox" ng-model="checkboxes.items[article.id_article]" />
+        </td>
+        <td data-title="Estado">
+          <!-- Botones de edicion particular -->
+          <button class="btn btn-default" ng-if="article.isEditing" ng-click="vm.cancelChanges(article, rowForm)">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+          <button class="btn btn-primary" title="Editar Artículo" ng-if="!article.isEditing && !vm.isEditing"
+                  ng-click="vm.setEditing(article, true)">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <button class="btn btn-primary" ng-if="article.isEditing"
+                  ng-disabled="!vm.hasChanges(article, rowForm)"
+                  ng-click="vm.loadSurvey(article)">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+          <a class="btn btn-success" ng-if="article.enabled" title="Deshabilitar Artículo"
+             ng-click="vm.enableArticle(article, false)">
+            <i class="glyphicon glyphicon-check"></i>
+          </a>
+          <a class="btn btn-danger" ng-if="!article.enabled" title="Habilitar Artículo"
+             ng-click="vm.enableArticle(article, true)">
+            <i class="glyphicon glyphicon-unchecked"></i>
+          </a>
+        </td>
+        <td data-title="'Código'" filter="{ full_code: 'text' }" sortable="'full_code'">{{article.full_code}}</td>
+        <td data-title="'Nombre'" filter="{ name: 'text' }" sortable="'name'">
+          {{article.name}}
+        </td>
+        <td data-title="'Subgrupo'" groupable="'id_subgroup'" filter="{ id_subgroup: 'select' }" filter-data="subgroups" sortable="'id_subgroup'">
+          {{article.subgroup_name}}
+        </td>
+        <td data-title="'Total Relevado'" ng-switch="article.isEditing || (vm.isEditing && checkboxes.items[article.id_article])"
+            ng-class="total_surveyed.$dirty ? 'bg-warning' : ''">
+          <span ng-switch-default class="editable-text">
+            {{article.total_surveyed | number: 2}}  {{article.measurement_unit_equivalence_abbreviation}}
+          </span>
+          <div class="controls" ng-class="total_surveyed.$invalid && total_surveyed.$dirty ? 'has-error' : ''" ng-switch-when="true">
+            <input type="text" name="total_surveyed" ng-change="vm.updateFieldsSurvey(article)" ng-model="article.total_surveyed" class="editable-input form-control input-sm"
+            ng-keypress="$event.keyCode == 13 && vm.loadSurvey(article)" required />
+          </div>
+        </td>
+        <td data-title="'Precio Total'" ng-switch="article.isEditing || (vm.isEditing && checkboxes.items[article.id_article])"
+            ng-class="total_price.$dirty ? 'bg-warning' : ''">
+          <span ng-switch-default class="editable-text">{{article.total_price | currency:'$'}}</span>
+          <div class="controls" ng-class="total_price.$invalid && total_price.$dirty ? 'has-error' : ''" ng-switch-when="true">
+            <input type="text" name="total_price" ng-change="vm.updateFieldsSurvey(article, 'total_price')" ng-model="article.total_price" class="editable-input form-control input-sm"
+            ng-keypress="$event.keyCode == 13 && vm.loadSurvey(article)" required />
+          </div>
+        </td>
+        <td data-title="'Escala'">
+          {{article.scale}} {{article.measurement_unit_abbreviation}}
+        </td>
+        <td data-title="'Equivalencia'">
+          {{article.equivalence}} {{article.measurement_unit_equivalence_abbreviation}}
+        </td>
+        <td data-title="'Precio Unit. Compra'">
+          <span>{{article.price | currency:'$'}}</span>
+        </td>
+      </tr>
+    </table>
+    <!-- Template para la cabecera checkbox. -->
+    <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+      <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+    </script>
+  </div>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="articles.list">Artículos</a>
+  </div>
+</section>

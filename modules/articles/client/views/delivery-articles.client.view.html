@@ -1,0 +1,164 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>Confirmación de Entrega N° {{vm.basket_order.number}}</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botones de Edicion batch -->
+  <div class="btn-group pull-left col-md-12">
+    <button class="btn btn-primary" title="Check All" ng-click="vm.checkAll()">
+      <span class="fa fa-check-square-o "></span>
+    </button>
+    <button class="btn btn-primary" title="Uncheck All" ng-click="vm.uncheckAll()">
+      <span class="fa fa-square-o"></span>
+    </button>
+    <div class="col-lg-4">
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button class="btn btn-primary" title="Agregar Presente" ng-click="addArticuloDelivery()">
+            <span class="fa fa-plus"></span>
+          </button>
+        </div>
+        <input ng-change="" type="text" ng-model="articleSelected" placeholder="Buscar Artículos"
+               typeahead="articulo as articulo.name for articulo in getArticles($viewValue)"
+               typeahead-loading="loadingArticles"
+               typeahead-editable="false"
+               ng-keypress="addArticuloDelivery()"
+               class="form-control">
+      </div>
+    </div>
+    <button class="btn btn-primary" title="Cerrar Orden de Entrega" ng-click="closeDeliveryOrder()">
+      <span class="fa fa-check">Cerrar</span>
+    </button>
+  </div>
+  </br>
+  </br>
+  <!-- Tabla -->
+
+  <!-- Payment Methods -->
+  <div class="row">
+    <div class="col-md-5">
+      <div class="row" ng-repeat="payment_method in vm.basket_order.payment_methods">
+        <div class="col-md-9">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <span>Método de Cobro</span>
+            </div>
+            <select class="form-control" ng-model="payment_method.method" ng-options="option.description for option in vm.paymentMethodsOptions">
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <input type="number" class="form-control" placeholder="$" ng-model="payment_method.total">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-primary" ng-click="vm.addPaymentMethod()">
+        <i class="fa fa-plus"></i> Medio de Cobro
+      </button>
+    </div>
+    <div class="col-md-5">
+      <h3 class="right">Total Valorizado: {{ getTotalValued() | currency:'$'}}</h3>
+    </div>
+  </div>
+  <table class="table table-bordered table-condensed editable-table">
+      <tr>
+        <th class="center"></th>
+        <th class="center">Edición</th>
+        <th class="center">Código</th>
+        <th class="center">Nombre</th>
+        <th class="center">Escala</th>
+        <th class="center">Equivalencia</th>
+        <th class="center">Cantidad</th>
+        <th class="center">Cantidad Total</th>
+        <th class="center">Precio</th>
+        <th class="center">Total Valorizado</th>
+      </tr>
+      <!-- Filas Ariculos -->
+      <tr ng-repeat="article in vm.basket_order.articles | orderBy:'name'" ng-form="rowForm" ng-repeat-end
+          ng-class="vm.getClassWasChanged(article)">
+        <td width="30" header="'headers/checkbox.html'">
+          <input ng-disabled="vm.wasChanged(article)" ng-hide="article.gift" type="checkbox" ng-init="checkboxes.items[article.id_article] = article.status_basket != 20" ng-model="checkboxes.items[article.id_article]" />
+          <span ng-show="article.gift" class="pointer text-danger" title="Eliminar Presente" ng-click="removeArticuloDelivery(article)">
+            <i class="fa fa-remove"></i>
+          </span>
+        </td>
+        <td class="ancho_columna_max">
+          <!-- Botones de edicion particular -->
+          <div class="col-sm-2" ng-show="!vm.wasChanged(article)">
+            <button class="btn btn-default" ng-if="article.isEditing && !article.gift" ng-click="vm.setEditing(article, false)">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <button class="btn btn-primary" title="Editar Artículo" ng-if="!article.isEditing && !vm.isEditing && !article.gift"
+                    ng-click="vm.setEditing(article, true)">
+              <span class="fa fa-pencil"></span>
+            </button>
+          </div>
+          <div class="col-sm-10" ng-show="article.isEditing && !article.gift && !vm.wasChanged(article)">
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button class="btn btn-primary" title="Agregar Presente" ng-click="changeArticuloDelivery(article)">
+                  <span class="fa fa-check"></span>
+                </button>
+              </div>
+              <input ng-change="" type="text" ng-model="vm.articleSelectedChange" placeholder="Buscar Artículos"
+                     typeahead="articulo as articulo.name for articulo in getArticles($viewValue)"
+                     typeahead-loading="loadingArticles"
+                     typeahead-editable="false"
+                     ng-keypress="changeArticuloDelivery(article)"
+                     class="form-control">
+            </div>
+          </div>
+        </td>
+        <td>{{article.full_code}}</td>
+        <td><i ng-show="article.gift" class="fa fa-gift" title="Presente: El precio se refiere al precio de compra o al precio de relevamiento según sea el caso"></i> {{article.name}}</td>
+        <td>{{article.scale}} {{article.measurement_unit_abbreviation_plural}}</td>
+        <td>{{article.equivalence}} {{article.measurement_unit_equivalence_abbreviation_plural}}</td>
+        <td class="ancho_columna_max_num" ng-class="!vm.wasChanged(article) ? 'editable_column' : ''">
+          <span ng-hide="article.isEditing" ng-dblclick="vm.setEditing(article, true)">
+            {{article.amount | number: 2}}
+          </span>
+          <input class="form-control" ng-show="article.isEditing" ng-model="article.amount"
+                 ng-keypress="$event.keyCode == 13 && updateArticuloDelivery(article)" autofocus />
+        </td>
+        <td>{{article.amount * article.equivalence | number: 2}} {{article.measurement_unit_equivalence_abbreviation_plural}}</td>
+        <td><span>{{article.price | currency:'$'}}</span></td>
+        <td><span>{{article.price * article.amount | currency:'$'}}</span></td>
+      </tr>
+
+      <!-- Filas Ariculos Complejos -->
+      <tr ng-repeat="complex_article in vm.basket_order.complex_articles | orderBy:'name'" ng-repeat-end>
+        <td width="30" header="'headers/checkbox_complex.html'">
+          <input type="checkbox" ng-init="checkboxes_complex.items[complex_article.id_complex_article] = true" ng-model="checkboxes_complex.items[complex_article.id_complex_article]" />
+        </td>
+        <td></td>
+        <td>{{complex_article.full_code}}</td>
+        <td class="pointer">
+          <a href="#" ng-click="verComplexArticleDetail(complex_article)">
+            <i class="fa fa-tags text-info" title="Ver composición del artículo complejo"></i> {{complex_article.name}}</td>
+          </a>
+        <td>--</td>
+        <td>--</td>
+        <td><span>{{complex_article.amount | number: 2}}</span></td>
+        <td>--</td>
+        <td><span>{{complex_article.price | currency:'$'}}</span></td>
+        <td><span>{{complex_article.total | currency:'$'}}</span></td>
+      </tr>
+    </table>
+    <!-- Template para la cabecera checkbox. -->
+    <script type="text/ng-template" id="headers/checkbox.html">
+      <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+    </script>
+    <script type="text/ng-template" id="headers/checkbox_complex.html">
+      <input type="checkbox" ng-model="checkboxes_complex.checked" id="select_all" name="filter-checkbox" value="" />
+    </script>
+  </div>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="deliveries.list">Órdenes de Entrega</a>
+    <a class="btn btn-primary" data-ui-sref="articles_stocks">Stock</a>
+  </div>
+</section>

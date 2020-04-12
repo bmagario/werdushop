@@ -1,0 +1,58 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Artículos</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table ng-table="tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+      <tr data-ng-repeat="article in $data">
+        <td data-title="'Código'" filter="{ full_code: 'text' }" sortable="'full_code'">{{article.full_code}}</td>
+        <td data-title="'Nombre'" filter="{ name: 'text' }" sortable="'name'">
+          {{article.name}}
+        </td>
+        <td data-title="'Escala'">{{article.scale}} {{article.measurement_unit_abbreviation}}</td>
+        <td data-title="'Equivalencia'">{{article.equivalence}} {{article.measurement_unit_equivalence_abbreviation}}</td>
+        <td data-title="'Subgrupo'" filter="{ id_subgroup: 'select' }" filter-data="subgroups" sortable="'id_subgroup'">{{article.subgroup_name}}</td>
+        <td data-title="'Marca'" filter="{ id_brand: 'select' }" filter-data="brands" sortable="'id_brand'">{{article.brand_name}}</td>
+        <td data-title="'Temporada'" style="min-width:170px;max-width:170px;padding:0">
+          <ul style="font-size:0;padding:0">
+            <li class="temporada_{{season[article.season_1].name}} sin_pading" ></li>
+            <li class="temporada_{{season[article.season_2].name}} sin_pading" ></li>
+            <li class="temporada_{{season[article.season_3].name}} sin_pading" ></li>
+            <li class="temporada_{{season[article.season_4].name}} sin_pading trimestre" ></li>
+            <li class="temporada_{{season[article.season_5].name}} sin_pading" ></li>
+            <li class="temporada_{{season[article.season_6].name}} sin_pading" ></li>
+            <li class="temporada_{{season[article.season_7].name}} sin_pading trimestre" ></li>
+            <li class="temporada_{{season[article.season_8].name}} sin_pading" ></li>
+            <li class="temporada_{{season[article.season_9].name}} sin_pading" ></li>
+            <li class="temporada_{{season[article.season_10].name}} sin_pading trimestre" ></li>
+            <li class="temporada_{{season[article.season_11].name}} sin_pading" ></li>
+            <li class="temporada_{{season[article.season_12].name}} sin_pading" ></li>
+          </ul>
+        </td>
+        <td data-title="'Creado'" sortable="'created'">{{article.created | date:'dd/MM/yyyy'}}</td>
+        <td>
+          <div class="table-actions">
+           <div class="table-actions">
+             <a class="btn btn-primary" title="Ver" data-ui-sref="articles.view({ articleId: article.id_article })">
+              <span class="glyphicon glyphicon-eye-open"></span>
+            </a>
+            <a class="btn btn-primary" title="Editar" data-ui-sref="articles.edit({ articleId: article.id_article })">
+              <span class="glyphicon glyphicon-edit"></span>
+            </a>
+            <a class="btn {{article.article_image_url.indexOf('default') == -1 ? 'btn-success' : 'btn-primary'}}" title="Imagen" data-ui-sref="articles.image({ articleId: article.id_article })">
+              <span class="glyphicon glyphicon-picture"></span>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="articles.create">Crear Artículo</a>
+  </div>
+</section>

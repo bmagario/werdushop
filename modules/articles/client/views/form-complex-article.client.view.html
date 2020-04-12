@@ -1,0 +1,96 @@
+<section>
+  <div class="page-header left">
+    <h1>{{vm.complex_article.id_complex_article ? vm.complex_article.name : 'Alta Artículo Complejo'}}</h1>
+  </div>
+  <div class="row">
+    <!-- Datos del articulo complejo -->
+    <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6">
+      <form name="vm.form.complexArticleForm" novalidate>
+        <!-- Nombre -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="name">Nombre</label>
+          <div class="col-sm-10">
+            <input name="name" type="text" ng-model="vm.complex_article.name" id="name" class="form-control" placeholder="Nombre" required>
+            <div ng-messages="vm.form.complexArticleForm.name.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar el nombre del artículo complejo.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Descripcion -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="description">Descripción</label>
+          <div class="col-sm-10">
+            <textarea name="description" type="text" ng-model="vm.complex_article.description" id="description" class="form-control"
+            placeholder="Descripción"></textarea>
+            <div ng-messages="vm.form.complexArticleForm.description.$error" role="alert">
+              <p class="help-block error-text"></p>
+            </div>
+          </div>
+        </div>
+        <!-- Subgrupo -->
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2" for="subgroup">Subgrupo</label>
+          <div class="col-sm-4">
+            <select id="subgroup" name="subgroup" class="form-control" ng-model="vm.complex_article.id_subgroup" ng-options="option.id_subgroup as option.name for option in vm.subgroupOptions" required>
+            </select>
+            <div ng-messages="vm.form.complexArticleForm.subgroup.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar el Subgrupo.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Fecha Vigencia. -->
+        <div class="form-group row">
+          <label class="control-label col-sm-2">Fch. Vigencia</label>
+          <div class="col-sm-8 left">
+              <datetimepicker
+                min-date="minDate"
+                ng-disabled="disabled"
+                hour-step="hourStep"
+                minute-step="minuteStep"
+                ng-model="vm.complex_article.effective_date"
+                show-meridian="showMeridian"
+                date-format="dd/MM/yyyy"
+                date-options="dateOptions"
+                current-text="Hoy"
+                close-text="Cerrar"
+                clear-text="Limpiar"
+                readonly-time="false"
+                ng-required="false">
+              </datetimepicker>
+          </div>
+        </div>
+        <!-- Submit -->
+        <div class="form-group">
+          <button ng-click="vm.save(vm.form.complexArticleForm.$valid)" class="btn btn-default">
+            {{vm.complex_article.id_complex_article ? 'Actualizar' : 'Crear'}}
+          </button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </form>
+    </div>
+
+    <!-- Imagen de Articulo -->
+    <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6">
+      <div ng-show="vm.complex_article.id_complex_article"
+           ng-include src="'modules/articles/client/views/image-complex-article.client.view.html'">
+      </div>
+    </div>
+
+    <!-- Agregar Articulos -->
+    <div class="col-md-12">
+      <div ng-include src="'modules/articles/client/views/complex-article-detail-table.client.view.html'">
+      </div>
+    </div>
+  </div>
+  <!-- Botonera -->
+  <div class="col-md-12">
+    <a class="btn btn-primary" data-ng-click="vm.atras()">
+        Atrás
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.go_articulos()">
+        Artículos Complejos
+    </a>
+  </div>
+</section>

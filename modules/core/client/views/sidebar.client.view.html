@@ -1,0 +1,13 @@
+<section ng-if="authentication.user">
+	<aside-menu ng-controller="SidebarController" ng-show='menu.shouldRender(authentication.user)' id="sol1" side="left" width="200px" is-backdrop="true" push-content="true">
+	  <accordion>
+	    <accordion-group ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}} sidebar-brand" dropdown="item.type === 'dropdown'" heading="{{::item.title}}">
+
+	      <div ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active" class="navigation-items">
+	        <a ui-sref="{{subitem.state}}" ng-bind="subitem.title"></a>
+	      </div>
+
+	    </accordion-group>
+	  </accordion>
+	</aside-menu>
+</section>

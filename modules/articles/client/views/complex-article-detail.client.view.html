@@ -1,0 +1,20 @@
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+    <th>Código</th>
+    <th>Nombre</th>
+    <th>Escala Orig.</th>
+    <th>Escala Nueva</th>
+    <th>Equiv. Orig.</th>
+    <th>Equiv. Nueva</th>
+    <th>Precio Unit. Compra</th>
+  </tr>
+  <tr data-ng-repeat="article in current_articles">
+    <td>{{article.full_code}}</td>
+    <td>{{article.name}}</td>
+    <td>{{article.scale}} {{article.measurement_unit_abbreviation_plural}}</td>
+    <td>{{article.scale_complex}} {{article.measurement_unit_abbreviation_plural_complex}}</td>
+    <td>{{article.equivalence}} {{article.measurement_unit_equivalence_abbreviation}}</td>
+    <td>{{article.equivalence_complex}} {{article.measurement_unit_equivalence_abbreviation_plural}}</span></td>
+    <td>{{article.purchase_price | currency:'$'}}</td>
+  </tr>
+</table>

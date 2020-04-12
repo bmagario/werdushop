@@ -1,0 +1,94 @@
+<section class="row row-content">
+ <!-- Select de Localidades/zonas -->
+  <div class="input-group col-md-4">    
+    <span class="input-group-addon">Localidad - Zona</span>
+    <select id="zones" name="zones" class="form-control" ng-options="option as option.full_zone_name group by option.name for option in basketPS.zoneOptions" ng-model="basketPS.selected_zone_loc" ng-change="changeZone()" required><option value="">{{basketPS.selected_zone_loc ? basketPS.selected_zone_loc.full_zone_name : 'Elegir una localidad-zona'}}</option>
+    </select>
+  </div>
+  
+  </br>
+
+  <div class="spinner" ng-src="/modules/core/client/img/loaders/loader.gif" ng-show="loading">Cargando...</div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">    
+          <h3 class="left">Compra mínima   <a class="btn btn-primary" title="Editar" ui-sref="basket_params.shipping_cost"><span class="glyphicon glyphicon-pencil"></span></a></h3>
+        </div>
+        <h4>desde {{basketPCostS.minimun_purchase|formatoMoneda}}</h4>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="left">Envío gratis   <a class="btn btn-primary" title="Editar" ui-sref="basket_params.shipping_cost"><span class="glyphicon glyphicon-pencil"></span></a></h3>
+        </div>
+        <h4>a partir de {{basketPCostS.free_shipping|formatoMoneda}}</h4>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="left">Costo de envío   <a class="btn btn-primary" title="Editar" ui-sref="basket_params.shipping_cost"><span class="glyphicon glyphicon-pencil"></span></a></h3>
+        </div>
+        <h4>{{basketPCostS.shipping_cost|formatoMoneda}}</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">    
+    <!-- Tabla de parametros de envío - días de entrega -->
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="left">Días de entrega   <a class="btn btn-primary" title="Editar" ui-sref="basket_params.days">
+            <span class="glyphicon glyphicon-pencil"></span></a></h3>
+        </div>
+        <table ng-table="basketPDateS.vm.tableParamsDate" class="table table-bordered table-striped table-condensed editable-table" show-filter="true" ng-table-columns-binding="basketPDateS.vm.boundCols" ng-form="basketPDateS.vm.tableFormDate">
+          <colgroup>
+            <col width="5%" />
+            <col width="8%" />
+            <col width="20%" />
+          </colgroup>
+          
+          <!-- Filas -->
+          <tr ng-hide="group.$hideRows" ng-repeat="shipping_date in $data" ng-form="rowFormDate" ng-repeat-end>
+                   
+            <td data-title="'Número'" sortable="'id_shipping_date'">{{shipping_date.id_shipping_date}}</td>
+            <td data-title="'Estado'" sortable="'id_status'">{{shipping_date.status_name}}</td>             
+            <td data-title="'Días de entrega'"> 
+              <span>{{shipping_date.shipping_day}}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  
+    <!-- Tabla de parametros de envío - horarios de entrega -->
+    <div class="col-md-6" ng-controller="BasketParametersTimeController">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="left">Horarios de entrega   <a class="btn btn-primary" title="Editar" ui-sref="basket_params.times"><span class="glyphicon glyphicon-pencil"></span></a></h3>
+        </div>
+        <table ng-table="vm.tableParamsTime" class="table table-bordered table-striped table-condensed editable-table" show-filter="true" ng-table-columns-binding="vm.boundCols" ng-form="vm.tableFormTime">
+          <colgroup>
+            <col width="5%" />
+            <col width="8%" />
+            <col width="20%" />
+          </colgroup>
+          
+          <!-- Filas -->
+          <tr ng-hide="group.$hideRows" ng-repeat="shipping_time in $data" ng-form="rowFormTime" ng-repeat-end>
+                   
+            <td data-title="'Número'" sortable="'id_shipping_time'">{{shipping_time.id_shipping_time}}</td>
+            <td data-title="'Estado'" sortable="'id_status'">{{shipping_time.status_name}}</td>             
+            <td data-title="'Rango Horario'"> 
+              <span>entre las {{shipping_time.shipping_hour_from}} a las {{shipping_time.shipping_hour_to}}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+<div class="container-fluid ingresar" ng-controller="AuthenticationController">
+  
+  <div class="row row-content">  
+  
+    <form class="form-horizontal signin" name="userForm" role="form" ng-submit="signin(modalOptions, userForm.$valid)" novalidate autocomplete="off">
+        
+        <!-- Email -->
+        <div class="form-group" show-errors>
+          <div class="col-xs-12 col-sm-12 col-lg-12" >
+            <input class="form-control" type="text" id="email" name="email" ng-model="credentials.email" placeholder="{{temail}}" required>
+              
+            <div ng-messages="userForm.email.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar su email.</p>
+            </div>
+          
+          </div>
+        
+        </div><!-- email -->
+
+      <!-- Contraseña -->
+      <div class="form-group" show-errors>
+
+        <!-- Campo para ingresar contraseña -->
+        <div class="col-xs-12 col-sm-12 col-lg-12" >  
+          <input class="form-control" type="{{inputType}}" id="password" name="password" ng-model="credentials.password" placeholder="{{tclave}}" required>
+          <div ng-messages="userForm.password.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Debe ingresar su contraseña.</p>
+          </div>
+        </div><!-- .Campo para ingresar contraseña -->
+
+        <div class="col-xs-12 col-sm-12 col-lg-12" >
+          <div class="input-group">
+            
+            <!-- Mostrar u ocultar contraseña -->
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ng-model="passwordCheckbox" ng-click="hideShowPassword()" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="{{tmostrarclave}}"><i class="{{iconoverpass}}" aria-hidden="true"></i></button>
+            </span>
+
+            <!-- Cambiar contraseña -->
+            <a type="button" class="btn btn-link" ui-sref="password.forgot">{{tnuevaclave}}</a>
+          </div>
+        </div> <!-- .col-xs-12 col-sm-12 col-lg-12 -->
+      </div><!-- .Contraseña -->
+
+      <!-- Botones: ingresar, facebook, registrarse -->
+      <div class="text-center form-group">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+          <button  type="submit" class="btn btn-success btn-lg btn-block">
+            <i class="fa fa-key" aria-hidden="true"></i> {{bingresar}}
+          </button>
+          <br>
+
+          <button  type="submit" class="btn btn-primary btn-lg btn-block " ng-click="callOauthProvider('/api/auth/facebook')" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i> {{tregistrofacebook}}</button><br>
+
+          <button  type="button" class="btn btn-warning btn-lg btn-block" ng-click="verRegistro(modalOptions)"><i class="fa fa-envelope" aria-hidden="true"></i> {{tregistroemail}}</button>
+        
+        </div><!-- col-xs-12 col-sm-12 col-lg-12 -->
+        
+      </div><!-- .Botones: ingresar, facebook, registrarse -->
+        <alert type="danger" ng-show="error" class="text-center text-danger">
+          <span ng-bind="error"></span>
+        </alert>
+    </form>
+  </div>
+</div>

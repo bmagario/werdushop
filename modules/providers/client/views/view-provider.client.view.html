@@ -1,0 +1,29 @@
+<section>
+  <div class="page-header">
+    <h2 data-ng-bind="vm.provider.nombre_fantasia"></h2>
+  </div>
+  <div class="pull-right">
+    <a class="btn btn-primary"
+       data-ui-sref="providers.edit({ id_provider: vm.provider.id_provider })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-danger" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Creado
+      <span data-ng-bind="vm.provider.created | date:'dd/MM/yyyy'"></span>
+    </em>
+  </small>
+  <p class="lead" data-ng-bind="vm.provider.nombre_fantasia"></p>
+  <p class="lead" data-ng-bind="vm.provider.cuit"></p>
+  <p class="lead" data-ng-bind="vm.provider.telefono"></p>
+  <a class="btn btn-primary" data-ng-click="vm.atras()">
+      Atrás
+  </a>
+  <a class="btn btn-primary" data-ng-click="vm.go_providers()">
+      Proveedores
+  </a>
+</section>

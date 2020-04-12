@@ -1,0 +1,27 @@
+<section>
+  <div class="page-header">
+    <h2 data-ng-bind="vm.subaccount.description"></h2>
+  </div>
+  <div class="pull-right">
+    <a class="btn btn-primary"
+       data-ui-sref="subaccounts.edit({ id_subaccount: vm.subaccount.id_subaccount })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-danger" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Creado
+      <span data-ng-bind="vm.subaccount.created | date:'dd/MM/yyyy'"></span>
+    </em>
+  </small>
+  <p class="lead" data-ng-bind="vm.subaccount.description"></p>
+  <a class="btn btn-primary" data-ng-click="vm.atras()">
+    Atrás
+  </a>
+  <a class="btn btn-primary" data-ng-click="vm.go_subaccounts()">
+    Subcuentas
+  </a>
+</section>

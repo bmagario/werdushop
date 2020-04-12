@@ -1,0 +1,163 @@
+<section class="row row-content">
+ <!-- Select de Localidades/zonas -->
+  <div class="input-group col-md-4">    
+    <span class="input-group-addon">Localidad - Zona</span>
+    <select id="zones" name="zones" class="form-control" ng-options="option as option.full_zone_name group by option.name for option in basketPS.zoneOptions" ng-model="basketPS.selected_zone_loc" ng-change="changeZone()" required><option value="">{{basketPS.selected_zone_loc ? basketPS.selected_zone_loc.full_zone_name : 'Elegir una localidad-zona'}}</option>
+    </select>
+  </div>
+  </br>
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Botones de Edicion batch -->
+      <div class="btn-group pull-left">
+        <button class="btn btn-default" ng-if="vm.isEditingTime" ng-click="vm.cancelChangesTime()">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button class="btn btn-primary" title="Editar Seleccionados" ng-if="!vm.isEditingTime" ng-click="vm.setEditingTime(null,true)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button class="btn btn-primary" ng-if="vm.isEditingTime" ng-disabled="!vm.hasChangesTime()" ng-click="vm.loadHour(null)">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+
+        <button class="btn btn-success" title="Habilitar Seleccionados" ng-click="vm.enableHour(null, true)">
+          <span class="glyphicon glyphicon-check"></span>
+        </button>
+        <button class="btn btn-danger" title="Desabilitar Seleccionados" ng-click="vm.enableHour(null, false)">
+          <span class="glyphicon glyphicon-unchecked"></span>
+        </button>
+        <button class="btn btn-primary" ng-click="vm.deleteHour(null)">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
+      </div>
+      <!-- Botons para agregar un nuevo horario -->
+      <div class="btn-group pull-right">
+        <button class="btn btn-default" ng-if="vm.isAddingTime" ng-click="vm.cancelAddingTime()">
+          <span class="glyphicon glyphicon-remove" title="Cancelar"></span>
+        </button>
+        <button class="btn btn-warning" title="Agregar horario" ng-disabled="vm.isAddingTime" ng-click="vm.setAddingTime()">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+      <div class="spinner" ng-src="/modules/core/client/img/loaders/loader.gif" ng-show="loading">Cargando...</div>
+    </div>
+  </div>
+  </br>
+  <div class="pull-right row" ng-if="vm.isAddingTime" >
+   
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">    
+          <h4 class="left">Nuevo horario para {{basketPS.selected_zone_loc.full_zone_name}}</h4>
+        </div>
+        <div class="panel-body">
+          <form name="addTimeForm" class="form-horizontal" role="form" ng-submit="vm.addTime(addTimeForm.$valid,add_shipping_hour_from,add_shipping_hour_to)" novalidate autocomplete="on">
+         
+            <div class="form-group col-md-7 pull-left" show-errors>  
+              <label class='col-sm-2 control-label' for="startTime">Desde</label>
+              <div class='col-sm-4'>
+                <timepicker name="startTime" ng-model="add_shipping_hour_from" min="minHour" max="add_shipping_hour_to" show-meridian='showMeridian' enable-date="false" hour-step="hstep" minute-step="mstep"/>
+              </div>
+
+              <label class='col-sm-2 control-label' for="endTime">Hasta</label>
+              <div class='col-sm-4'>
+                <timepicker name="endTime" ng-model="add_shipping_hour_to" min="add_shipping_hour_from" max="maxHour" show-meridian='showMeridian' enable-date="false"  hour-step="hstep" minute-step="mstep"/>
+              </div>
+            </div>
+
+            <div class="form-group col-md-5 pull-right ">
+
+              <div class="checkbox">
+                <label> <input type="checkbox" name='showMeridian' ng-model='showMeridian' />
+                  {{showMeridian ? 'Ocultar meridiano' : 'Ver meridiano '}}
+                </label>
+              </div>
+              </br>
+
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-model="enable_hour" ng-click="enableOrNotTime()"><i class="{{enable_hour ? 'fa fa-eye' : 'fa fa-eye-slash'}}" aria-hidden="true"></i> {{enable_hour ? 'Deshabilitar horario' : 'Habilitar horario '}}</button>
+              </span>
+             
+              </br>
+              <input type="submit" value="Guardar" class="btn btn-primary" ng-disabled="addTimeForm.$invalid"/>       
+            </div>       
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de parametros de envío - horarios de entrega -->
+  <table ng-table="vm.tableParamsTime" class="table table-bordered table-striped table-condensed editable-table" show-filter="true" ng-table-columns-binding="vm.boundCols" ng-form="vm.tableFormTime">
+    <colgroup>
+      <col width="12%" />
+      <col width="5%" />
+      <col width="10%" />
+      <col width="15%" />
+      <col width="6%" />
+      <col width="6%" />
+    </colgroup>
+    
+    <!-- Filas -->
+    <tr ng-hide="group.$hideRows" ng-repeat="shipping_time in $data" ng-form="rowFormTime" ng-repeat-end>
+      <td width="30" header="'ng-table/headers/checkbox.html'">
+        <input type="checkbox" ng-model="checkboxesTime.items[shipping_time.id_shipping_time]" />
+        <!-- Botones de edicion particular -->
+        <button class="btn btn-default" ng-if="shipping_time.isEditingTime" ng-click="vm.cancelChangesTime(shipping_time, rowFormTime)">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button class="btn btn-primary" title="Editar horario" ng-if="!shipping_time.isEditingTime && !vm.isEditingTime" ng-click="vm.setEditingTime(shipping_time, true)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button class="btn btn-primary" ng-if="shipping_time.isEditingTime"
+                ng-disabled="!vm.hasChangesTime(shipping_time, rowFormTime)"
+                ng-click="vm.loadHour(shipping_time)">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <a class="btn btn-success" ng-if="shipping_time.id_status == 1" title="Deshabilitar horario"
+           ng-click="vm.enableHour(shipping_time, false)">
+          <i class="glyphicon glyphicon-check"></i>
+        </a>
+        <a class="btn btn-danger" ng-if="shipping_time.id_status == 2" title="Habilitar horario"
+           ng-click="vm.enableHour(shipping_time, true)">
+          <i class="glyphicon glyphicon-unchecked"></i>
+        </a>
+        <button class="btn btn-primary" ng-click="vm.deleteHour(shipping_time)">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
+      </td>
+      
+      <td data-title="'Número'" sortable="'id_shipping_time'">{{shipping_time.id_shipping_time}}</td>
+      <td data-title="'Estado'" sortable="'id_status'">{{shipping_time.status_name}}</td>       
+    
+      <td data-title="'Rango Horario'" ng-switch="shipping_time.isEditingTime || (vm.isEditingTime && checkboxesTime.items[shipping_time.id_shipping_time])" ng-class="shipping_hour_from.$dirty ? 'bg-warning' : ''">
+        
+        <span ng-switch-default class="editable-text">entre las {{shipping_time.shipping_hour_from}} hs</span>
+        <div class="controls" ng-class="shipping_hour_from.$invalid && shipping_hour_from.$dirty ? 'has-error' : ''" ng-switch-when="true">
+
+          <label class='col-sm-2 control-label' for="startTime">Desde</label>
+          <div class='col-sm-4'>
+            <timepicker name="startTime" ng-model="shipping_time.update_shipping_hour_from" min="minHour" max="shipping_time.update_shipping_hour_to" show-meridian='showMeridian' enable-date="false" hour-step="hstep" minute-step="mstep"/>
+          </div>
+        </div>
+            
+        <span ng-switch-default class="editable-text"> a las {{shipping_time.shipping_hour_to}} hs</span>
+        <div class="controls" ng-class="shipping_hour_to.$invalid && shipping_hour_to.$dirty ? 'has-error' : ''" ng-switch-when="true">
+
+          <label class='col-sm-2 control-label' for="endTime">Hasta</label>
+          <div class='col-sm-4'>
+            <timepicker name="endTime" ng-model="shipping_time.update_shipping_hour_to" min="shipping_time.update_shipping_hour_from" max="maxHour" show-meridian='showMeridian' enable-date="false"  hour-step="hstep" minute-step="mstep"/>
+          </div>
+        </div>
+
+      </td>
+      <td data-title="'Creado'" sortable="'created'">{{shipping_time.created | date:'dd/MM/yyyy'}}</td>
+      <td data-title="'Modificado'" sortable="'modified'">{{shipping_time.modified | date:'dd/MM/yyyy'}}</td>
+    </tr>
+  </table>
+    
+  <!-- Template para la cabecera checkbox. -->
+  <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+    <input type="checkbox" ng-model="checkboxesTime.checked" id="select_all" name="filter-checkbox" value="" />
+  </script>
+</section>

@@ -1,0 +1,200 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1 ng-if="purchase_order.id_purchase_order !== null">Orden de Compra N° {{ purchase_order.number }}</h1>
+        <h1 ng-if="purchase_order.id_purchase_order === null">Agregar artículo para crear orden de compra</h1>
+      </div>
+    </div>
+  </div>
+
+  </br>
+  <!-- Botones de Edicion batch -->
+  <div class="btn-group pull-left col-md-12" ng-show="purchase_order.allow_edit">
+    <button class="btn btn-default" ng-if="vm.isEditing" ng-click="vm.cancelChanges()">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button>
+    <button class="btn btn-primary" title="Editar Seleccionados" ng-if="!vm.isEditing" ng-click="vm.setEditing(null,true)">
+      <span class="glyphicon glyphicon-pencil"></span>
+    </button>
+    <button class="btn btn-primary" ng-if="vm.isEditing" ng-disabled="!vm.hasChanges()"
+            ng-click="vm.loadPurchase()">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
+    <button class="btn btn-success" title="Habilitar Seleccionados" ng-click="vm.enableArticle(null, true)">
+      <span class="glyphicon glyphicon-check"></span>
+    </button>
+    <button class="btn btn-danger" title="Desabilitar Seleccionados" ng-click="vm.enableArticle(null, false)">
+      <span class="glyphicon glyphicon-unchecked"></span>
+    </button>
+    <div class="col-lg-4">
+      <div class="input-group">
+        <input ng-change="" type="text" ng-model="articleSelected" placeholder="Buscar Artículos"
+        typeahead="articulo as articulo.name for articulo in getArticles($viewValue)"
+        typeahead-loading="loadingArticles"
+        typeahead-editable="false"
+        ng-keypress="addArticuloPurchase()"
+        class="form-control">
+        <div class="input-group-btn">
+          <button class="btn btn-primary" title="Compra Impulsiva" ng-click="addArticuloPurchase()">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </br>
+
+  <!-- Tabla -->
+  <table ng-table="vm.tableParams" class="table table-bordered table-condensed editable-table" show-filter="true"
+         ng-table-columns-binding="vm.boundCols" show-group="vm.isGroupHeaderRowVisible" ng-form="vm.tableForm">
+    <colgroup>
+      <col width="10%" />
+      <col ng-if="purchase_order.allow_edit" width="12%" />
+      <col width="8%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="7%" />
+      <col width="7%" />
+      <col width="7%" />
+      <col width="7%" />
+      <col width="8%" />
+      <col width="6%" />
+      <col width="6%" />
+      <col width="9%" />
+    </colgroup>
+    <!-- Grupos -->
+    <tr class="ng-table-group" ng-repeat-start="group in $groups">
+      <td colspan="{{$groups.visibleColumnCount}}">
+        <a href="" ng-click="group.$hideRows = !group.$hideRows">
+          <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+          <strong>{{ group.value }}</strong>
+        </a>
+      </td>
+    </tr>
+    <!-- Filas -->
+    <tr ng-hide="group.$hideRows" ng-repeat="article in group.data" ng-form="rowForm"
+        ng-class="vm.getClassRow(article)" ng-repeat-end>
+      <td width="30" header="'ng-table/headers/checkbox.html'">
+        <input type="checkbox" ng-model="checkboxes.items[article.id_article]" />
+      </td>
+      <td data-title="Estado" ng-if="purchase_order.allow_edit">
+        <!-- Botones de edicion particular -->
+        <button class="btn btn-default" ng-if="article.isEditing" ng-click="vm.cancelChanges(article, rowForm)">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button class="btn btn-primary" title="Editar Artículo" ng-if="!article.isEditing && !vm.isEditing"
+                ng-click="vm.setEditing(article, true)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button class="btn btn-primary" ng-if="article.isEditing"
+                ng-disabled="!vm.hasChanges(article, rowForm)"
+                ng-click="vm.loadPurchase(article)">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <a class="btn btn-success" ng-if="article.enabled" title="Deshabilitar Artículo"
+           ng-click="vm.enableArticle(article, false)">
+          <i class="glyphicon glyphicon-check"></i>
+        </a>
+        <a class="btn btn-danger" ng-if="!article.enabled" title="Habilitar Artículo"
+           ng-click="vm.enableArticle(article, true)">
+          <i class="glyphicon glyphicon-unchecked"></i>
+        </a>
+      </td>
+      <td data-title="'Código'" filter="{ full_code: 'text' }" sortable="'full_code'">{{article.full_code}}</td>
+      <td data-title="'Nombre'" filter="{ name: 'text' }" sortable="'name'">{{article.name}}</td>
+      <td data-title="'Subgrupo'" groupable="'id_subgroup'" filter="{ id_subgroup: 'select' }"
+          filter-data="subgroups" sortable="'id_subgroup'">
+          {{article.subgroup_name}}
+      </td>
+      <td data-title="'Proveedor'" filter="{ id_provider: 'select' }"
+          filter-data="providers" sortable="'id_provider'">
+          <select class="form-control"
+                  ng-disabled="!purchase_order.allow_edit"
+                  ng-model="article.id_provider"
+                  ng-options="option.id_provider as option.nombre_fantasia for option in providerOptions"
+                  ng-change="vm.loadProvider(article)">
+          </select>
+      </td>
+      <td data-title="'Cantidad OC'">
+        <span>{{article.amount | number: 2}} {{article.measurement_unit_equivalence_abbreviation}}</span>
+      </td>
+      <td data-title="'Compra Sucia'" ng-switch="article.isEditing || (vm.isEditing && checkboxes.items[article.id_article])"
+          ng-class="total_dirty.$dirty ? 'bg-warning' : ''">
+        <span ng-switch-default class="editable-text">
+          {{article.total_dirty | number: 2}} {{article.measurement_unit_equivalence_abbreviation}}
+        </span>
+        <div class="controls" ng-class="total_dirty.$invalid && total_dirty.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <input type="text" name="total_dirty" ng-change="vm.updateFieldsPurchase(article)" ng-model="article.total_dirty"
+                 class="editable-input form-control input-sm"
+                 ng-keypress="$event.keyCode == 13 && vm.loadPurchase(article)" required />
+        </div>
+      </td>
+      <td data-title="'Compra Desperdicio'" ng-switch="article.isEditing || (vm.isEditing && checkboxes.items[article.id_article])"
+          ng-class="total_waste.$dirty ? 'bg-warning' : ''">
+        <span ng-switch-default class="editable-text">
+          {{article.total_waste | number: 2}} {{article.measurement_unit_equivalence_abbreviation}}
+        </span>
+        <div class="controls" ng-class="total_waste.$invalid && total_waste.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <input type="text" name="total_waste" ng-change="vm.updateFieldsPurchase(article, 'total_waste')" ng-model="article.total_waste" class="editable-input form-control input-sm"
+          ng-keypress="$event.keyCode == 13 && vm.loadPurchase(article)" required />
+        </div>
+      </td>
+      <td data-title="'Compra Limpia'" ng-switch="article.isEditing || (vm.isEditing && checkboxes.items[article.id_article])"
+          ng-class="total_clean.$dirty ? 'bg-warning' : ''">
+        <span ng-switch-default class="editable-text">
+          {{article.total_clean | number: 2}} {{article.measurement_unit_equivalence_abbreviation}}
+        </span>
+        <div class="controls" ng-class="total_clean.$invalid && total_clean.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <input type="text" name="total_clean" ng-change="vm.updateFieldsPurchase(article, 'total_clean')" ng-model="article.total_clean" class="editable-input form-control input-sm"
+          ng-keypress="$event.keyCode == 13 && vm.loadPurchase(article)"  required />
+        </div>
+      </td>
+      <td data-title="'Precio Total Compra'" ng-switch="article.isEditing || (vm.isEditing && checkboxes.items[article.id_article])"
+          ng-class="total_price.$dirty ? 'bg-warning' : ''">
+        <span ng-switch-default class="editable-text">
+          {{article.total_price | currency:'$'}}
+        </span>
+        <div class="controls" ng-class="total_price.$invalid && total_price.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <input type="text" name="total_price" ng-change="vm.updateFieldsPurchase(article, 'total_price')" ng-model="article.total_price" class="editable-input form-control input-sm"
+          ng-keypress="$event.keyCode == 13 && vm.loadPurchase(article)" required />
+        </div>
+      </td>
+      <td data-title="'Escala'">
+        {{article.scale}} {{article.measurement_unit_abbreviation}}
+      </td>
+      <td data-title="'Equivalencia'">
+        {{article.equivalence}} {{article.measurement_unit_equivalence_abbreviation}}
+      </td>
+      <td data-title="'Precio Unit. Compra'">
+        <span>{{article.price | currency:'$'}}</span>
+      </td>
+    </tr>
+  </table>
+  <!-- Template para la cabecera checkbox. -->
+  <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+    <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+  </script>
+  <!-- Tabla -->
+
+  <!-- Muestro el total parcial de la orden de compra -->
+  <h3 class="right">Total OC: {{total_valued | currency:'$'}}</h3>
+
+  <hr />
+
+
+  <!-- Pagos a Proveedores -->
+  <div ng-include src="'modules/articles/client/views/providers-payments-purchase.view.html'"></div>
+
+  <div class="text-center" ng-show="purchase_order.allow_edit">
+    <button ng-if="purchase_order.loading" class="btn btn-primary" title="Cerrar Orden de Compra" ng-click="checkConsistency()">
+      <span class="fa fa-check"> Cerrar OC</span>
+    </button>
+  </div>
+  <br />
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="articles_purchases.list">Órdenes de Compra</a>
+    <a class="btn btn-primary" data-ui-sref="articles.list">Artículos</a>
+  </div>
+</section>

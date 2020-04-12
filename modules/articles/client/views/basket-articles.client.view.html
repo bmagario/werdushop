@@ -1,0 +1,106 @@
+<section ng-controller="BasketController">
+  <div class="container-fluid basket">
+
+    <!-- Progreso -->
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+        {{basketS.costo_mensaje}}
+
+        <progress>
+          <bar value="basketS.precioTotalCanasta" type="{{basketS.costo_color}}" animate>
+            <span>{{basketS.precioTotalCanasta|formatoMoneda}}</span>
+          </bar>
+        </progress>
+      </div>
+    </div>
+
+    <!-- Lista de artículos de la canasta -->
+    <div class="pre-scrollable"  ng-show="basketS.basket.articulos && basketS.basket.articulos.length" >
+      <div ng-repeat="a in basketS.basket.articulos">
+        <div class="media">
+          <div class="media-left">
+            <a>
+              <!-- Foto del artículo -->
+              <img class="media-object basket_img" ng-src={{a.article_image_url}} alt={{a.name}}>
+            </a>
+
+            <!-- Botones de + y - para sumar o quitar unidades del artículo de la cesta -->
+            <div class="row">
+              <div class="col-sm-6">
+                <a class="btn" ng-click="quitarArticulo(a)">
+                  <span class="media-object glyphicon glyphicon-minus"></span>
+                </a>
+              </div>
+              <div class="col-sm-6">
+                <a class="btn" ng-click="agregarArticulo(a)">
+                  <span class="media-object glyphicon glyphicon-plus"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Datos del artículo: precio, unidades, etc -->
+          <div class="media-body basket_pie">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-9 ">
+                  <!-- Titulo del artículo -->
+                  <p class="media-heading basket_name" style="color:{{a.color}}">{{a.name}}</p>
+                </div>
+                <div class="col-sm-3 btn_trash">                    
+                  <!-- Boton que permite quitar todo el artículo de la canasta -->
+                  <a type="button" class="btn " ng-click="eliminarArticulo(a)"><span class="glyphicon glyphicon-trash"></span></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <span class="basket_precio">{{calcularPrecioArticulo(a)|formatoMoneda}} / </span>
+                  <span class="basket_unidad">{{calcularUnidadesArticulo(a)}} {{calcularAbrUnidadMedida(a)}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div><!-- a in basket.articles -->       
+    </div>
+
+    <div ng-show="!basketS.basket.articulos || !basketS.basket.articulos.length">Canasta vacia</div>  
+
+    <accordion close-others="true">
+      <accordion-group is-open="detalle_entrega_expandido">
+        <accordion-heading>
+          <span class="detalle_entrega">
+            <i class="fa fa-truck pull-left basket_camion" aria-hidden="true"></i>
+            Detalle de entrega
+            <i class=" pull-right glyphicon" ng-class="{'glyphicon glyphicon glyphicon-chevron-up': detalle_entrega_expandido, 'glyphicon glyphicon glyphicon-chevron-down': !detalle_entrega_expandido}"></i>
+          </span>
+        </accordion-heading>
+        
+        <div ng-include="'/modules/articles/client/views/basket/basket-confirm-address.client.view.html'" scope="" onload=""></div>
+    
+        <div ng-include="'/modules/articles/client/views/basket/basket-confirm-day.client.view.html'" scope="" onload=""></div>
+    
+        <div ng-include="'/modules/articles/client/views/basket/basket-confirm-time.client.view.html'" scope="" onload=""></div>
+     
+      </accordion-group>
+    </accordion>
+
+
+    <!-- Costo total de la canasta -->
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 basket_subtotal">
+        Subtotal: {{basketS.precioTotalCanasta|formatoMoneda}}
+      </div>      
+      <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 basket_envio">
+        Costo envío: {{basketS.costo_envio|formatoMoneda}}
+      </div> 
+
+      <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 basket_total">
+        Total: {{(basketS.precioTotalCanasta+basketS.costo_envio)|formatoMoneda}}
+      </div> 
+    </div>
+
+    <!-- Botón para confirmar la compra -->
+    <button class="btn btn-block btn-lg btn-comprar" ng-click="cerrarCanasta()">Comprar</button>
+  </div>
+</section>

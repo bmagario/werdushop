@@ -1,0 +1,15 @@
+<div class="media">
+  <!-- Foto del producto -->
+  <img class="pull-left img-circle" ng-src={{complex_article.a.article_image_url}} alt={{complex_article.a.name}}>
+
+  <!-- Datos del producto: descripción e información nutricional -->
+  <div class="media-body text-left">
+    <h4 class="media-heading">{{complex_article.a.description}}</h4>
+	<ul class="list-unstyled" ng-repeat="detail_article in complex_article.dc">
+	  <li class="media">
+	    <img class="lista_img_artcomp" src={{detail_article.article_image_url}} alt="{{detail_article.name}}">
+      	<span class="mt-0 mb-1">{{detail_article.scale_complex}} {{detail_article.measurement_unit_abbreviation_complex}} {{detail_article.name}}</span>     	
+	  </li>	  
+	</ul>
+  </div>
+</div>

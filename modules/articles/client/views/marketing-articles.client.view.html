@@ -1,0 +1,65 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Carga Marketing</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Select de Localidades -->
+  <div class="input-group col-md-4">
+    <span class="input-group-addon">Zona</span>
+    <select id="zones" name="zones" class="form-control" ng-options="option.id_zone as option.full_zone_name for option in zoneOptions"  ng-model="zone" ng-change="changeZone()" required>
+    </select>
+  </div>
+  </br>
+  <h3 class="right">Total Valorizado: {{total_valued | currency:'$'}}</h3>
+  <!-- Tabla -->
+  <table ng-table="vm.tableParams" class="table table-bordered table-striped table-condensed editable-table"
+         show-filter="true" ng-table-columns-binding="vm.boundCols">
+      <!-- Filas -->
+      <tr data-ng-repeat="article in $data" ng-form="rowForm" ng-repeat-end>
+        <td data-title="'Código'" filter="{ full_code: 'text' }" sortable="'full_code'">{{article.full_code}}</td>
+        <td data-title="'Nombre'" filter="{ name: 'text' }" sortable="'name'">
+          {{article.name}}
+        </td>
+        <td data-title="'Subgrupo'" filter="{ id_subgroup: 'select' }" filter-data="subgroups" sortable="'id_subgroup'">
+          {{article.subgroup_name}}
+        </td>
+        <td data-title="'Carga Marketing'" ng-switch="article.isEditing" class="editable_column ancho_columna_max_num" ng-class="total_dirty.$dirty ? 'bg-warning' : ''">
+          <span ng-hide="article.isEditing" ng-dblclick="vm.setEditing(article, true)">
+            {{article.measurement_unit_equivalence_abbreviation}}
+          </span>
+          <div class="row">
+            <div class="col-sm-2">
+              <button class="btn btn-default" ng-if="article.isEditing" ng-click="vm.cancelChanges(article, rowForm)">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </div>
+            <div class="col-sm-8 col-sm-offset-1">
+              <input class="form-control" ng-show="article.isEditing" ng-model="article.total_carga_marketing"
+                     ng-keypress="$event.keyCode == 13 && vm.loadMarketing(article)" autofocus />
+            </div>
+          </div>
+        </td>
+        <td data-title="'Total Stock'">
+          {{article.total | number: 2}} {{article.measurement_unit_equivalence_abbreviation}}
+        </td>
+        <td data-title="'Precio'">
+          <span>{{article.price | currency:'$'}}</span>
+        </td>
+        <td data-title="'Total Valorizado'">
+          <span>{{article.total_valued | currency:'$'}}</span>
+        </td>
+      </tr>
+    </table>
+    <!-- Template para la cabecera checkbox. -->
+    <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+      <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+    </script>
+  </div>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="articles.list">Artículos</a>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+<section>
+  <div class="page-header">
+    <h1>Código {{vm.article.full_code}}</h1>
+    <h2 class="gondola_name" style="color:{{vm.article.color}}" data-ng-bind="vm.article.name"></h2>
+  </div>
+  <div class="pull-right">
+    <a class="btn btn-primary"
+      data-ui-sref="articles.edit({ articleId: vm.article.id_article })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn {{vm.article.article_image_url.indexOf('default') == -1 ? 'btn-success' : 'btn-primary'}}"
+       data-ui-sref="articles.image({ articleId: vm.article.id_article })">
+      <i class="glyphicon glyphicon-picture"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Creado
+      <span data-ng-bind="vm.article.created | date:'dd/MM/yyyy'"></span>
+    </em>
+    <img src="{{vm.article.article_image_url}}" alt="">
+  </small>
+  <p class="lead" data-ng-bind="vm.article.description"></p>
+  <a class="btn btn-primary" data-ng-click="vm.atras()">
+    Atrás
+  </a>
+  <a class="btn btn-primary" data-ng-click="vm.go_articulos()">
+    Artículos
+  </a>
+</section>

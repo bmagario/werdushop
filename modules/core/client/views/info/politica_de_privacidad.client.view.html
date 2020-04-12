@@ -1,0 +1,13 @@
+<div class="container-fluid" ng-controller="FooterController">
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+      <div ng-repeat="parrafo in politicaprivacidad" class="animate-repeat-category">
+        <h3 class="title_privacy">{{ parrafo.titulo }}</h3>
+        <div class="list-items text_privacy">
+          {{parrafo.texto}}
+        </div>
+        </br>
+      </div>
+    </div>
+  </div>
+</div>

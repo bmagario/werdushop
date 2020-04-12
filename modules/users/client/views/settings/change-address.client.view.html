@@ -1,0 +1,71 @@
+<!-- Editar las direcciones desde el panle de edición del perfil del usuario -->
+<section class="row row-content" ng-controller="ChangeAddressController" ng-init="listar()">
+  <div class="col-xs-12 col-md-12 col-lg-12 col-sm-12">
+    <form >
+      <fieldset class="form-group">
+        <div ng-repeat="radio in addressS.address" class="row form-check">
+          <ul class="address pull-left">              
+            <li><strong>{{radio.street}} {{radio.number}} </strong>
+              <span ng-if="radio.floor != ''"> {{radio.floor}}</span>
+              <span ng-if="radio.apartment != ''"> "{{radio.apartment}}"</span>
+            </li>
+          </ul>
+          <div class="btn-group pull-right">
+            <a type="button" class="btn" ng-click="addressS.changeUserAddress(radio)">
+              <span class="media-object glyphicon glyphicon-pencil"></span>
+            </a>            
+            <a type="button" class="btn" ng-click="addressS.removeUserAddress(radio)">
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
+          </div>
+        </div>
+        <div ng-show="!addressS.address || !addressS.address.length">No tiene direcciones registradas.</div>
+      </fieldset>
+    </form>
+
+    <form role="form" name="addressForm" ng-submit="addressS.updateUserAddress(addressForm.$valid)" class="form-horizontal purchaseaddress" novalidate autocomplete="on">
+
+      <flieldset class="pull-left">
+
+        <div class="col-md-3 form-group" show-errors>
+          <input type="text" id="streetadd" name="streetadd" class="form-control" ng-model="addressS.newaddress.str" maxlength="100" size="100" required>
+          <label for="streetadd">Calle</label>
+          <div ng-messages="addressForm.streetadd.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Ingresá el nombre de la calle.</p>
+          </div>
+        </div>
+
+        <div class="col-md-2 form-group" show-errors>
+          <input type="number" maxlength="4" size="4" min="0" max="9999" id="numberadd" name="numberadd" class="form-control" ng-model="addressS.newaddress.num" required>
+          <label for="numberadd">Número</label>
+          <div ng-messages="addressForm.numberadd.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Ingresá el número.</p>
+          </div>
+        </div>
+            
+        <div class="col-md-1 form-group" show-errors>
+          <input type="text" maxlength="4" size="4" id="flooradd" name="flooradd" class="form-control" ng-model="addressS.newaddress.floor" >
+          <label for="flooradd">Piso</label>
+        </div>
+            
+        <div class="col-md-2 form-group" show-errors>         
+          <input type="text" maxlength="4" size="4" id="dptoadd" name="dptoadd" class="form-control" ng-model="addressS.newaddress.dpto">
+          <label for="dptoadd">Departamento</label>
+        </div>
+        <div class="text-center form-group">
+          <button type="submit" class="btn btn-primary" ng-disabled="addressForm.$invalid">Guardar</button>
+        </div>
+
+      </flieldset>
+    </form>
+    
+    <div ng-show="addressS.success" class="text-center text-success">
+      <strong>La dirección fue guardada exitosamente.</strong>
+    </div>
+        
+    <div ng-show="addressS.error" class="text-center text-danger">
+      <strong ng-bind="addressS.error"></strong>
+    </div>
+
+  </div>
+</section>

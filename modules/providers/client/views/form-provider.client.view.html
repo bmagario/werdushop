@@ -1,0 +1,86 @@
+<section>
+  <div class="page-header left">
+    <h1>{{vm.provider.id_provider ? 'Editar Proveedor' : 'Agregar Proveedor'}}</h1>
+  </div>
+  <div class="col-md-6">
+    <form name="vm.form.providerForm" class="" ng-submit="vm.save(vm.form.providerForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="nombre_fantasia">Nombre Fantasía</label>
+          <div class="col-sm-10">
+            <input name="nombre_fantasia" type="text" ng-model="vm.provider.nombre_fantasia" id="nombre_fantasia" class="form-control" placeholder="Nombre de Fantasía" required>
+            <div ng-messages="vm.form.providerForm.nombre_fantasia.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Debe ingresar el nombre de fantasía.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="razon_social">Razón Social</label>
+          <div class="col-sm-10">
+            <input name="razon_social" type="text" ng-model="vm.provider.razon_social" id="razon_social" class="form-control" placeholder="Razón Social">
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="razon_social">CUIT</label>
+          <div class="col-sm-10">
+            <input name="cuit" type="text" ng-model="vm.provider.cuit" id="cuit" class="form-control" placeholder="CUIT">
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="razon_social">Dirección</label>
+          <div class="col-sm-10">
+            <input name="direccion" type="text" ng-model="vm.provider.direccion" id="direccion" class="form-control" placeholder="Dirección">
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="razon_social">Email</label>
+          <div class="col-sm-10">
+            <input name="email" type="text" ng-model="vm.provider.email" id="email" class="form-control" placeholder="Email">
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="razon_social">Teléfono</label>
+          <div class="col-sm-10">
+            <input name="telefono" type="text" ng-model="vm.provider.telefono" id="telefono" class="form-control" placeholder="Teléfono">
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="razon_social">Teléfono Alternativo</label>
+          <div class="col-sm-10">
+            <input name="telefono_alternativo" type="text" ng-model="vm.provider.telefono_alternativo" id="telefono_alternativo" class="form-control" placeholder="Teléfono Alternativo">
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="razon_social">Contacto</label>
+          <div class="col-sm-10">
+            <input name="contacto" type="text" ng-model="vm.provider.contacto" id="contacto" class="form-control" placeholder="Contacto">
+          </div>
+        </div>
+        <div class="form-group row" show-errors>
+          <label class="control-label col-sm-2 right" for="state">Estado</label>
+          <div class="col-sm-4">
+            <select id="state" name="state" class="form-control" ng-model="vm.provider.id_status" ng-options="option.id_status as option.name for option in vm.stateOptions" required>
+            </select>
+            <div ng-messages="vm.state.form.providerForm.state.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Estado.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.provider.id_provider ? 'Actualizar' : 'Agregar'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="col-md-12">
+    <a class="btn btn-primary" data-ng-click="vm.atras()">
+        Atrás
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.go_providers()">
+        Proveedores
+    </a>
+  </div>
+</section>

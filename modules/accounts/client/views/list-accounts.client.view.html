@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Cuenta</h1>
+      </div>
+    </div>
+  </div>
+
+  <table ng-table="tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+    <tr data-ng-repeat="account in $data">
+      <td data-title="'Nombre'" filter="{ acc_description: 'text' }" sortable="'acc_description'">{{account.description}}</td>
+      <td data-title="'Tipo'" filter="{ account_type: 'select' }" filter-data="account_types">{{account.tipo_cuenta}}</td>
+      <td data-title="'Estado'" filter="{ acc_id_status: 'select' }" filter-data="states">{{account.status_name}}</td>
+      <td data-title="'Creado'" sortable="'account_created'">{{account.created | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+      <td>
+        <div class="table-actions">
+         <div class="table-actions">
+           <a class="btn btn-primary" title="Ver" data-ui-sref="accounts.view({ id_account: account.id_account })">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
+          <a class="btn btn-primary" title="Editar" data-ui-sref="accounts.edit({ id_account: account.id_account })">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a class="btn btn-danger" title="Baja" data-ng-click="remove(account)">
+            <i class="glyphicon glyphicon-trash"></i>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div class="text-center">
+    <a class="btn btn-primary" data-ui-sref="subaccounts.list">Subcuentas</a>
+    <a class="btn btn-primary" data-ui-sref="accounts.create">Crear Cuenta</a>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+<!-- La view listar artículos en las góndola -->
+<div class="row" ng-controller="GondolaArticlesController">  
+
+  <div class="col-lg-3 col-md-4 col-xs-6 gondola" ng-repeat="article in gondola | filter:query | orderBy: 'a.name' ">
+        <!-- Titulo del artículo -->
+    <span class="gondola_name" style="color:{{article.a.color}}">{{article.a.name}}</span>
+
+    <span ng-show="article.a.offer == 1" class="label label-success promo">¡Promo!</span>
+    <!-- Foto del artículo -->
+    <span><img class="img-responsive" ng-src="{{article.a.article_image_url}}" alt="{{article.a.name}}"
+        ng-click="mostrarArticuloGondola(article.a)"
+        tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="Ver detalles"></span>
+
+    <!-- Precio y unidad de venta -->
+    <div class="row gondola_pie ">
+      <div class="col-sm-12">
+        <span class="gondola_precio" ng-bind="article.a.price|formatoMoneda"></span>
+        <span class="gondola_unidad"> / {{article.a.scale}} {{calcularAbrUnidadMedida(article.a.scale, article.a)}}</span>
+        <span class="gondola_eq" ng-show="{{article.a.show_equivalence}}">(aprox. {{article.a.equivalence}} {{article.a.measurement_unit_equivalence_abbreviation}})</span>
+      </div><!-- col  -->
+    </div><!-- row gondola_pie -->
+
+    <!-- Botones para agregar o quitar el artículo a la canasta -->
+    <div class="row btn-gondola">
+      <div class="col-sm-12">
+       <!-- Botón para cargar al menos una unidad del artículo a la cesta -->
+        <a type="button" class="btn-canasta btn-sm"
+            ng-show="article.ver_canasta" ng-click="agregaraCanasta(article)">Agregar</a>
+
+        <!-- Botones de - y + para sumar o quitar unidades del artículo de la cesta -->
+        <a ng-show="article.ver_menos" class="btn-menos-gondola" ng-click="quitardeCanasta(article)"><span class="glyphicon glyphicon-minus"></span></a>
+
+        <span ng-show="article.ver_cantidad" class="gondola_cantidadencesta">{{basketS.cantidadArticuloCanasta(article.a)}} {{basketS.calcularAbrUnidadMedida(article.a)}}</span>
+
+        <a ng-show="article.ver_mas" class="btn-mas-gondola" ng-click="agregaraCanasta(article)"><span class="glyphicon glyphicon-plus"></span></a>
+      </div>
+    </div><!-- btn-gondola -->
+  </div><!-- ng-repeat="a in articles" -->
+
+
+
+  <!-- Si no hay artículos en la lista, lo informo al usuario -->
+  <div ng-show="!gondola || !gondola.length" >
+    <span class="gondola_name">No hay artículos en esta góndola</span>
+  </div>
+</div><!-- row gondola

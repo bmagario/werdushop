@@ -1,0 +1,185 @@
+<section class="row row-content">
+ <!-- Select de Localidades/zonas -->
+  <div class="input-group col-md-4">    
+    <span class="input-group-addon">Localidad - Zona</span>
+    <select id="zones" name="zones" class="form-control" ng-options="option as option.full_zone_name group by option.name for option in basketPS.zoneOptions" ng-model="basketPS.selected_zone_loc" ng-change="changeZone()" required><option value="">{{basketPS.selected_zone_loc ? basketPS.selected_zone_loc.full_zone_name : 'Elegir una localidad-zona'}}</option>
+    </select>
+  </div>
+  </br>
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Botones de Edicion batch -->
+      <div class="btn-group pull-left">
+        <button class="btn btn-default" ng-if="vm.isEditingDate" ng-click="vm.cancelChangesDate()">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button class="btn btn-primary" title="Editar Seleccionados" ng-if="!vm.isEditingDate" ng-click="vm.setEditingDate(null,true)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button class="btn btn-primary" ng-if="vm.isEditingDate" ng-disabled="!vm.hasChangesDate()"
+                ng-click="vm.loadDay()">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <button class="btn btn-success" title="Habilitar Seleccionados" ng-click="vm.enableDay(null, true)">
+          <span class="glyphicon glyphicon-check"></span>
+        </button>
+        <button class="btn btn-danger" title="Desabilitar Seleccionados" ng-click="vm.enableDay(null, false)">
+          <span class="glyphicon glyphicon-unchecked"></span>
+        </button>
+        <button class="btn btn-primary" ng-click="vm.deleteDay(null)">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
+      </div>
+
+      <div class="btn-group pull-right">
+        <button class="btn btn-default" ng-if="vm.isAddingNotWorkDate" ng-click="vm.cancelAddingDate()">
+          <span class="glyphicon glyphicon-remove" title="Cancelar"></span>
+        </button>
+        
+        <!-- Botons para agregar un los días no laborables del año -->
+        <button class="btn btn-success" title="Agregar día no laborable" ng-disabled="vm.isAddingNotWorkDate" ng-click="vm.setAddingNotWorkDate()">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </button>
+      </div>
+      
+      <div class="spinner" ng-src="/modules/core/client/img/loaders/loader.gif" ng-show="loading">Cargando...</div>
+    </div>
+  </div>
+  </br>
+
+  <!-- Panel desplegable para cargar la nueva fecha no laborable -->
+  <div class="pull-right row" ng-if="vm.isAddingNotWorkDate" >
+    <div class="col-md-12">
+      <div class="panel panel-default panel-dias-no-laborales">
+
+        <div class="panel-heading">    
+          <h4 class="left">Nueva fecha no laborable para {{basketPS.selected_zone_loc.full_zone_name}}</h4>
+        </div>
+
+        <div class="panel-body">
+          <form name="addDateNotWorkForm" class="form-horizontal" role="form" ng-submit="vm.addNotWorkDates(addDateNotWorkForm.$valid)" novalidate autocomplete="on">
+         
+            <div class="form-group col-md-7 pull-left" show-errors>  
+              <label class='col-sm-2 control-label' for="newNotWorkDate">Fecha</label>
+              <div class='col-sm-10'>
+               <!--  <datepicker name="addDateNotWorkForm" ng-model="add_not_work_date" min="minNWDate" max="maxNWDate"/> -->
+
+                <multiple-date-picker
+                  name="newNotWorkDate" 
+                  show-days-of-surrounding-months="true"
+                  fire-events-for-days-of-surrounding-months="true"
+                  css-days-of-surrounding-months="'picker-other-month-custom'"
+                  highlight-days="highlightDays"
+                  sunday-first-day="true" 
+                  day-click="checkSelection" day-hover="anotherCallbackIfYouNeed"
+                  change-year-past="3" 
+                  change-year-future="5"
+                  right-click="rightClickCb"
+                  ng-model="add_not_work_date"
+                  disable-days-before="today"
+                  disallow-back-past-months="true">    
+                </multiple-date-picker>
+              </div>
+            </div>
+
+            <div class="form-group col-md-5 pull-right">
+              <input type="submit" value="Guardar" class="btn btn-primary" ng-disabled="addDateNotWorkForm.$invalid"/>       
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel para cargar el nuevo día de entrega [de Lunes a Domingos] -->
+  <div class="pull-right row ">
+    <div class="col-md-12">
+      <div class="panel panel-default panel-dias-laborales">
+
+        <div class="panel-heading">    
+          <h4 class="left">Días de entrega para {{basketPS.selected_zone_loc.full_zone_name}}</h4>
+        </div>
+
+        <div class="panel-body">
+          <form name="addDateForm" class="form-horizontal" role="form" ng-submit="vm.addDate(addDateForm.$valid)" novalidate autocomplete="on">
+         
+            <div class="form-group col-md-12">  
+              <div class="btn-group" data-toggle="buttons">
+                <div class="container-fluid text-center">
+           
+                  <label ng-repeat="opt in enable_days" class="btn btn-lg btn-dia {{opt.color}}" ng-click="enableOrNotDate(opt.bd_dia)">{{opt.dia}}
+                    <i class="{{opt.activo ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'}}">
+                    </i>
+                  </label>
+    
+                  <input type="submit" value="Guardar" class="btn btn-lg btn-guardar" ng-disabled="addDateForm.$invalid"/> 
+                </div>
+              </div>
+            </div>
+          </form>
+        </div><!-- panel body -->
+      </div><!-- panel panel-default -->
+    </div><!-- col-md-12 -->
+  </div>
+
+
+  <!-- Tabla de parametros de envío - días de entrega -->
+  <!-- <table ng-table="vm.tableParamsDate" class="table table-bordered table-striped table-condensed editable-table" show-filter="true" ng-table-columns-binding="vm.boundColsDate" ng-form="vm.tableFormDate">
+    <colgroup>
+      <col width="12%" />
+      <col width="5%" />
+      <col width="10%" />
+      <col width="15%" />
+      <col width="6%" />
+      <col width="6%" />
+    </colgroup>
+      
+
+    <tr ng-hide="group.$hideRows" ng-repeat="shipping_date in $data" ng-form="rowFormDate" ng-repeat-end>
+      <td width="30" header="'ng-table/headers/checkbox.html'">
+        <input type="checkbox" ng-model="checkboxesDate.items[shipping_date.id_shipping_date]" />
+
+        <button class="btn btn-default" ng-if="shipping_date.isEditingDate" ng-click="vm.cancelChangesDate(shipping_date, rowFormDate)">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button class="btn btn-primary" title="Editar día" ng-if="!shipping_date.isEditingDate && !vm.isEditingDate"
+                ng-click="vm.setEditingDate(shipping_date, true)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button class="btn btn-primary" ng-if="shipping_date.isEditingDate"
+                ng-disabled="!vm.hasChangesDate(shipping_date, rowFormDate)"
+                ng-click="vm.loadHour(shipping_date)">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <a class="btn btn-success" ng-if="shipping_date.id_status == 1" title="Deshabilitar día"
+           ng-click="vm.enableDay(shipping_date, false)">
+          <i class="glyphicon glyphicon-check"></i>
+        </a>
+        <a class="btn btn-danger" ng-if="shipping_date.id_status == 2" title="Habilitar día"
+           ng-click="vm.enableDay(shipping_date, true)">
+          <i class="glyphicon glyphicon-unchecked"></i>
+        </a>
+      </td>
+      
+      <td data-title="'Número'" sortable="'id_shipping_date'">{{shipping_date.id_shipping_date}}</td>
+      <td data-title="'Estado'" sortable="'id_status'">{{shipping_date.status_name}}</td>       
+    
+      <td data-title="'Día de entrega'" ng-switch="shipping_date.isEditingDate || (vm.isEditingDate && checkboxesDate.items[shipping_date.id_shipping_date])" ng-class="shipping_hour_from.$dirty ? 'bg-warning' : ''">
+        
+        <span ng-switch-default class="editable-text">{{shipping_date.shipping_day}}</span>
+        <div class="controls" ng-class="shipping_day.$invalid && shipping_day.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <input type="text" name="shipping_day" ng-change="vm.updateFiledsDay(shipping_date, 'shipping_day')" ng-model="shipping_date.shipping_day" class="editable-input form-control input-sm" ng-keypress="$event.keyCode == 13 && vm.loadDay(shipping_date)" required />
+        </div>          
+      </td>
+      <td data-title="'Creado'" sortable="'created'">{{shipping_date.created | date:'dd/MM/yyyy'}}</td>
+      <td data-title="'Modificado'" sortable="'modified'">{{shipping_date.modified | date:'dd/MM/yyyy'}}</td>
+    </tr>
+  </table> -->
+    
+  <!-- Template para la cabecera checkbox. -->
+<!--   <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+    <input type="checkbox" ng-model="checkboxesDate.checked" id="select_all" name="filter-checkbox" value="" />
+  </script> -->
+
+</section>

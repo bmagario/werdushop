@@ -1,0 +1,117 @@
+<div class="container-fluid ingresar" ng-controller="AuthenticationController">
+  
+  <div class="row row-content">  
+  
+    <form class="form-horizontal signin" name="userForm" role="form" ng-submit="signup(modalOptions, userForm.$valid)" novalidate autocomplete="off">
+        
+        <!-- Nombre -->    
+      <div class="form-group" show-errors>
+        <!-- <label for="first_name" class="col-sm-2 control-label">Nombre</label> -->
+        <div class="col-xs-12 col-sm-12 col-lg-12" > 
+          <input type="text" id="first_name" name="first_name" class="form-control" ng-model="credentials.first_name" placeholder="Ingresá tu nombre" required>
+          <div ng-messages="userForm.first_name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Debe ingresar su nombre.</p>
+          </div>
+
+        </div>
+      </div><!-- .nombre -->
+
+      <!-- Apellido -->
+      <div class="form-group" show-errors>     
+        <!-- <label for="last_name" class="col-sm-2 control-label">Apellido</label> -->
+        <div class="col-xs-12 col-sm-12 col-lg-12" >
+          <input type="text" id="last_name" name="last_name" class="form-control" ng-model="credentials.last_name" placeholder="Ingresá tu apellido" required>
+          <div ng-messages="userForm.last_name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Debe ingresar su apellido.</p>
+          </div>
+        </div>
+      </div><!-- .apellido -->
+
+      <!-- Género -->
+      <div class="form-group text-center" show-errors>  
+        <div class="col-xs-12 col-sm-12 col-lg-12" >
+          <input type="radio" name="gender" ng-model="credentials.gender" id="gender_h" ng-value="thombre" ng-required="!credentials.gender"/>
+          <label for="gender_h">{{thombre}}  </label>
+
+          <input type="radio" name="gender" ng-model="credentials.gender" id="gender_m" ng-value="tmujer" ng-required="!credentials.gender"/>
+          <label for="gender_m">{{tmujer}} </label>
+           
+          <div ng-messages="userForm.gender.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Seleccioná una opción</p>
+          </div>
+        </div>
+      </div><!-- .genero -->
+
+      <!-- e-mail -->
+      <div class="form-group" show-errors>
+        <!-- <label for="email" class="col-sm-2 control-label">Email</label> -->
+        <div class="col-xs-12 col-sm-12 col-lg-12" >
+          <input type="email" id="email" name="email" class="form-control" ng-model="credentials.email" placeholder="Ingresá tu email" lowercase required>
+          <div ng-messages="userForm.email.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Debe ingresar su email.</p>
+            <p class="help-block error-text" ng-message="email">Debe ingresar un email válido.</p>
+          </div>
+        </div>
+      </div><!-- .email -->
+
+       <!-- Contraseña -->
+      <!-- /*Ingresa una combinación de al menos seis números, letras y signos de puntuación (como "!" y "&").*/ -->
+
+      <div class="form-group" show-errors>
+        <!-- <label for="password" class="col-sm-2 control-label">Contraseña</label> -->
+        <div class="col-xs-12 col-sm-12 col-lg-12" >
+
+          <div class="input-group">
+            <!-- Mostrar u ocultare contraseña -->
+            <span class="input-group-btn">
+             <button class="btn btn-default" type="button" ng-model="passwordCheckbox" ng-click="hideShowPassword()" tooltip-trigger="mouseenter" tooltip-placement="bottom" tooltip="{{tmostrarclave}}"><i class="{{iconoverpass}}" aria-hidden="true"></i></button>
+            </span>
+             
+             <!-- Campo para ingresar contraseña -->
+            <input type="{{inputType}}" id="password" name="password" class="form-control" ng-model="credentials.password" placeholder="Ingresá tu contraseña" popover="{{popoverMsg}}" popover-trigger="focus" password-validator required>
+          </div><!-- /input-group -->
+              
+          <div ng-messages="userForm.password.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Debe ingresar su contraseña.</p>
+            <div ng-repeat="passwordError in passwordErrors">
+              <p class="help-block error-text" ng-show="userForm.password.$error.requirements">{{passwordError}}</p>
+            </div>
+          </div>
+         
+          <!-- Barra de progreso: complejidad de la contraseña -->
+          <!-- <div ng-show="!userForm.newPassword.$error.required">
+            <label>Requerimientos de la Contraseña</label>
+            <progressbar value="requirementsProgress" type="{{requirementsColor}}"><span style="color:white; white-space:nowrap;">{{requirementsProgress}}%</span></progressbar>
+          </div>
+          </div> -->
+
+    <!--  <div class="form-group" show-errors>
+            <label for="verifyPassword">Verificar Contraseña</label>
+            <input type="password" id="verifyPassword" name="verifyPassword" class="form-control" ng-model="credentials.verifyPassword" placeholder="Verificar Contraseña" password-verify="credentials.newPassword" required>
+            <div ng-messages="userForm.verifyPassword.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Verifica u nueva Contraseña.</p>
+              <p class="help-block error-text" ng-show=userForm.verifyPassword.$error.passwordVerify>Las contraseñas no coinciden.</p>
+            </div>
+          </div> -->  
+        </div>
+      </div><!-- .contraseña -->
+
+      <!-- Botones: ingresar, facebook, registrarse -->
+      <div class="text-center form-group">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+         
+            <button  type="submit" class="btn btn-success btn-lg btn-block"><i class="fa fa-envelope" aria-hidden="true"></i> {{tregistroemail}}</button><br>
+
+            <button  type="submit" class="btn btn-primary btn-lg btn-block " ng-click="callOauthProvider('/api/auth/facebook')" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i> {{tregistrofacebook}}</button><br>
+
+            <button  type="button" class="btn btn-warning btn-lg btn-block" ng-click="verLogin(modalOptions)"><i class="fa fa-key" aria-hidden="true"></i> {{tlogin}}</button>
+        
+        </div><!-- col-xs-12 col-sm-12 col-lg-12 -->       
+      </div><!-- .Botones: ingresar, facebook, registrarse -->
+      
+      <alert type="danger" ng-show="error" class="text-center text-danger">
+          <span ng-bind="error"></span>
+      </alert>
+    </form>
+  </div>
+</div>

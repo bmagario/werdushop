@@ -1,0 +1,92 @@
+<section>
+  <div class="page-header left">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Órdenes de Entrega</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <div class="input-group">
+        <span class="input-group-addon">Zona</span>
+        <select id="zones" name="zones" class="form-control" ng-options="option.id_zone as option.full_zone_name for option in zoneOptions"  ng-model="zone" ng-change="changeZone()" required>
+        </select>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <div class="input-group">
+        <span class="input-group-addon">Fecha</span>
+        <input
+          type="text"
+          class="form-control"
+          datepicker-popup="{{format}}"
+          is-open="opened"
+          ng-model="date_basket"
+          show-meridian="showMeridian"
+          date-format="dd/MM/yyyy"
+          date-options="dateOptions"
+          current-text="Hoy"
+          close-text="Cerrar"
+          clear-text="Limpiar"
+          ng-required="true"
+          ng-click="open($event)"
+          ng-change="changeDeliveryDate()"/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+        </span>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <div class="input-group">
+        <span class="input-group-addon">Hora Entrega</span>
+        <select id="deliveryHours" name="deliveryHours" class="form-control"
+                ng-model="delivery_hour" ng-change="changeDeliveryHour()"
+                ng-options="option.id_shipping_time as
+                          ('de ' + option.shipping_hour_from + ' a ' + option.shipping_hour_to)
+                          for option in deliveryHourOptions">
+        </select>
+      </div>
+    </div>
+  </div>
+  </br>
+
+  <!-- Botones de descarga de planillas -->
+  <div class="pull-left">
+    <button class="btn btn-primary" title="Cerrar Orden de Compra" ng-click="downloadDeliveryPanel()">
+      <i class="fa fa-file-excel-o"> Panel Entrega</i>
+    </button>
+    <button class="btn btn-primary" title="Cerrar Orden de Compra" ng-click="downloadDeliveries(false)">
+      <i class="fa fa-file-excel-o"> Planillas Entrega</i>
+    </button>
+    <button class="btn btn-primary" title="Cerrar Orden de Compra" ng-click="downloadDeliveries(true)">
+      <i class="fa fa-file-excel-o"> Planillas Canastero</i>
+    </button>
+  </div>
+  </br>
+  </br>
+
+  <!-- Tabla de ordenes de entrega -->
+  <div class="table-responsive">
+    <table ng-table="vm.tableParams" class="table table-bordered table-striped table-condensed" show-filter="true">
+      <tr data-ng-repeat="delivery_order in $data">
+        <td data-title="'Número'" filter="{ number: 'number' }">{{delivery_order.number}}</td>
+        <td data-title="'Usuario'" filter="{ user_name: 'text' }">{{delivery_order.user_name}}</td>
+        <td data-title="'Fecha Entrega'">{{delivery_order.date_basket | date:'dd/MM/yyyy' }}</td>
+        <td data-title="'Hora Entrega'">{{delivery_order.hour}}</td>
+        <td data-title="'Estado'">{{delivery_order.status_name}}</td>
+        <td data-title="'Creado'" sortable="'basket_created'">{{delivery_order.created | date:'dd/MM/yyyy'}}</td>
+        <td>
+          <div class="table-actions">
+            <a class="btn btn-primary" title="Ver Orden de Entrega"
+              data-ui-sref="deliveries.close({ deliveryOrderId: delivery_order.id_basket_order })">
+              <span class="fa fa-eye"></span>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>

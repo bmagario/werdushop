@@ -1,0 +1,70 @@
+.aside-menu-content {
+
+    overflow-y: auto !important;
+    min-height: 100%;
+}
+
+.aside-menu{
+    border-right: 1px solid #ddd;
+}
+
+.sidebar-brand{
+    background-color : #444;
+    border-radius: 5px !important;
+    text-align: left;
+    min-width: 300px;
+
+}
+
+.navigation-items a {
+    display : block;
+    background-color : #444;
+    color : white;
+    line-height : 2em;
+    text-decoration : none;
+}
+.navigation-items a:hover {
+    background-color : #222;
+}
+.panel-title > a:hover,
+.panel-title > a:focus {
+    color: orange;
+}
+
+.aside_arrow {
+    color: orange;
+}
+.aside_arrow:hover {
+    color: green;
+}
+
+/* Tabs de la opción de configuración de parametros para la canasta */
+/* #exTab1 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+
+#exTab2 h3 {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+} */
+
+/* remove border radius for the tab */
+
+/* #exTab1 .nav-pills > li > a {
+  border-radius: 0;
+}
+ */
+/* change border radius for the tab , apply corners on top*/
+/* 
+#exTab3 .nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+}
+
+#exTab3 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+} */

@@ -1,0 +1,106 @@
+<!-- Muestro el total de pagos realizados -->
+<h3 class="right">Total Pagos: {{total_valued_payments | currency:'$'}}</h3>
+
+<!-- Payment Methods -->
+<div class="row">
+  <div class="col-md-3 nopadding">
+    <div class="input-group">
+      <div class="input-group-addon">
+        <span>Proveedor</span>
+      </div>
+      <select class="form-control"
+              ng-model="payment.provider"
+              ng-init="payment.provider = providerOptions[0]"
+              ng-options="option.nombre_fantasia for option in providerOptions">
+      </select>
+    </div>
+  </div>
+  <div class="col-md-3 nopadding">
+    <div class="input-group">
+      <div class="input-group-addon">
+        <span>Método de Pago</span>
+      </div>
+      <select class="form-control"
+              ng-model="payment.method"
+              ng-init="payment.method = paymentMethodsOptions[0]"
+              ng-options="option.description for option in paymentMethodsOptions">
+      </select>
+    </div>
+  </div>
+  <div class="col-md-1 nopadding">
+    <input type="number" class="form-control" placeholder="$" ng-model="payment.total"
+           ng-keypress="$event.keyCode == 13 && addPaymentMethod()">
+  </div>
+  <div class="col-md-2 nopadding left">
+    <button type="button" class="btn btn-primary" ng-click="addPaymentMethod()">
+      <i class="fa fa-plus"></i> Agregar Pago
+    </button>
+  </div>
+</div>
+<table ng-table="vm.tableParamsPayments" class="table table-bordered table-condensed editable-table" show-filter="true"
+       ng-table-columns-binding="vm.boundColsPayments" show-group="vm.isGroupHeaderRowVisiblePayment" ng-form="vm.tableFormPayments">
+    <colgroup>
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+    </colgroup>
+    <!-- Grupos -->
+    <tr class="ng-table-group" ng-repeat-start="group in $groups">
+      <td colspan="{{$groups.visibleColumnCount}}">
+        <a href="" ng-click="group.$hideRows = !group.$hideRows">
+          <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+          <strong>{{ group.value }}</strong>
+        </a>
+      </td>
+    </tr>
+    <!-- Filas -->
+    <tr ng-hide="group.$hideRows" ng-repeat="payment in group.data" ng-form="rowForm">
+      <td data-title="'Proveedor'"
+          filter="{ id_provider: 'select' }"
+          filter-data="providers"
+          groupable="'id_provider'"
+          sortable="'nombre_fantasia'">
+          <!-- Botones de edicion particular -->
+          <button class="btn btn-default" ng-if="payment.isEditing" ng-click="vm.cancelChangesPayment(payment, rowForm)">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+          <button class="btn btn-primary" title="Editar Pago" ng-if="!payment.isEditing"
+                  ng-click="vm.setEditingPayment(payment, true)">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <button class="btn btn-danger" title="Eliminar Pago" ng-if="!payment.isEditing"
+                  ng-click="vm.removePaymentMethod(payment, true)">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
+        <button class="btn btn-primary" ng-if="payment.isEditing"
+          ng-disabled="!vm.hasChangesPayment(payment, rowForm)"
+          ng-click="vm.updatePaymentMethod(payment)">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+      </td>
+      <td data-title="'CUIT'" filter="{ cuit: 'text' }" sortable="'cuit'">{{payment.cuit}}</td>
+      <td data-title="'Medio Pago'">
+        <span>{{payment.payment_description}}</span>
+      </td>
+      <td data-title="'Total'" ng-switch="payment.isEditing"
+          ng-class="amount.$dirty ? 'bg-warning' : ''">
+        <span ng-switch-default class="editable-text">
+          {{payment.amount | currency:'$'}}
+        </span>
+        <div class="controls" ng-class="amount.$invalid && amount.$dirty ? 'has-error' : ''" ng-switch-when="true">
+          <input type="text" name="amount"
+          ng-model="payment.amount" class="editable-input form-control input-sm"
+          ng-keypress="$event.keyCode == 13 && vm.updatePaymentMethod(payment)" />
+        </div>
+      </td>
+    </tr>
+    <tr ng-repeat-end>
+         <td class="text-success text-right" ng-attr-colspan={{3}}>
+           <strong>Resumen:</strong>
+         </td>
+         <td>
+           <em>{{vm.sum_providers(group.data) | currency:'$'}}</em>
+         </td>
+     </tr>
+  </table>
